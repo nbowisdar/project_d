@@ -1,14 +1,10 @@
-from requests import get
-import json
+from src.get_float_ import pars_all, start_parsing
+from src.get_items_dmarket import get_all_items_from_dm, get_in_game_and_link_dm
 
-BASE_ITEM_URL = 'https://dmarket.com/ingame-items/item-list/csgo-skins?userOfferId='
 
-with open('file.json', 'r', encoding='utf-8') as file:
-    data = json.load(file)
+def main():
+    items = get_all_items_from_dm()
+    in_game_and_link = get_in_game_and_link_dm(items['objects'])
+    start_parsing(in_game_and_link, save=True)
 
-for item in data['objects']:
-    in_game = item['extra']['inspectInGame']
-    item_link = BASE_ITEM_URL + item['extra']['linkId']
-
-    #print(item_link)
-    print(in_game)
+main()
