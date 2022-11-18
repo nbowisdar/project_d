@@ -1,5 +1,7 @@
 from fake_useragent import UserAgent
 import requests
+import json
+from schema.items_schema import ForGetFloatSchema
 
 UserAgent().random
 
@@ -20,3 +22,19 @@ def get_all_items_from_dm() -> dict:
           'limit=100&' \
           'currency=USD&platform=browser&isLoggedIn=true'
     return requests.get(url, headers=headers).json()
+
+
+BASE_ITEM_URL = 'https://dmarket.com/ingame-items/item-list/csgo-skins?userOfferId='
+
+
+def get_in_game_and_link_dm(items: list) -> list[ForGetFloatSchema]:
+    # for item in data['objects']:
+    rez = []
+    for item in items:
+        rez.append(ForGetFloatSchema(
+            link_dm=BASE_ITEM_URL + item['extra']['linkId'],
+            in_game=item['extra']['inspectInGame']
+        ))
+    return rez
+
+
