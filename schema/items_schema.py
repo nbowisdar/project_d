@@ -9,6 +9,10 @@ class ForGetFloatSchema(BaseItemSchema):
     in_game: str
 
 
+class ItemsSchema(BaseModel):
+    items: list[ForGetFloatSchema]
+
+
 class ForGetProfileSchema(BaseItemSchema):
     name: str
     float_value: float
