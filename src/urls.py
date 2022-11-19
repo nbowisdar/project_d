@@ -7,3 +7,4 @@ def build_dm_url(price_from: int, price_to=40000, what='knife'):
 
 
 BASE_DM_ITEM_URL = 'https://dmarket.com/ingame-items/item-list/csgo-skins?userOfferId='
+BASE_FLOAT_URL = 'https://api.csgofloat.com/?url='
