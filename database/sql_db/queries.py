@@ -1,3 +1,5 @@
+from peewee import IntegrityError
+
 from schema.sql_schema import ItemSchema, UserSchema
 from setup import db
 from tables import User, Item
@@ -20,12 +22,13 @@ def get_all() -> list[ItemSchema]:
     return rez
 
 
-def add_items(data: list[ItemSchema]) -> bool:
+def add_item(item: ItemSchema) -> bool:
     try:
-        with db.atomic():
-
-            return True
-            pass
-    except Exception as err:
-        logger.error(err)
+        Item.create(
+            name=item.name,
+            dm_link=item.dm_link,
+            user=item.user
+        )
+        return True
+    except IntegrityError:
         return False

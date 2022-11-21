@@ -9,8 +9,8 @@ class User(BaseModel):
 
 
 class Item(BaseModel):
-    name = CharField
-    dm_link = CharField
+    name = CharField()
+    dm_link = CharField(unique=True)
     user = ForeignKeyField(User, backref='items')
 
 
