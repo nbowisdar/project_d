@@ -5,14 +5,11 @@ import sys
 from pathlib import Path
 import subprocess
 import random
-from art import aprint
 from colorama import Fore, Style, Back
 
-from interface import fail
 
 
 def warning_text(text):
-    aprint(random.choice(fail))
     print(Fore.RED + "warning! -> " + Style.RESET_ALL + Back.RED + Fore.WHITE + str(text) + Style.RESET_ALL)
 
 
