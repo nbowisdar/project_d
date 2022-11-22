@@ -2,6 +2,9 @@ from pprint import pprint
 from database.mongo_db.setup import dm_items
 from loguru import logger
 
+from schema.new_schema import ItemsForDed
+
+
 class DmMongo:
     def __init__(self):
         self.collection = dm_items
@@ -10,9 +13,10 @@ class DmMongo:
         self.collection.insert_many(items)
         logger.info('Saved new date!')
 
-    def get_items(self) -> list[dict]:
+
+    def get_items(self) -> list[ItemsForDed]:
         query = self.collection.find()
-        return [item for item in query]
+        return [ItemsForDed(**item) for item in query]
 
     def drop_all(self) -> bool:
         self.collection.delete_many({})
@@ -23,11 +27,9 @@ class DmMongo:
         self.save_all(items)
 
 #
-# if __name__ == '__main__':
-#     dm = DmMongo()
-#     items = [{'name': 'test', 'price': 210},
-#              {'name': 'twodwad', 'price': 340}]
-#     dm.delete_prev_save_new(items)
-#     s = dm.get_items()
-#     print(s)
+if __name__ == '__main__':
+    dm = DmMongo()
+    items = dm.get_items()
+    for i in items:
+        print(i['name'])
 
