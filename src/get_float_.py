@@ -3,14 +3,15 @@ import json
 from fake_useragent import UserAgent
 import aiohttp
 from loguru import logger
-from schema.items_schema import ForGetProfileSchema, ForGetFloatSchema
+from schema.items_schema import ForGetFloatSchema
+from schema.new_schema import ForGetProfileSchema
 from src.urls import BASE_FLOAT_URL
 
 count = 0
 errors = 0
 
 
-async def get_float_one_item(item: ForGetFloatSchema) -> dict | None:
+async def get_float_one_item(item: ForGetFloatSchema) -> ForGetProfileSchema | None:
     global errors
     global count
     count += 1
@@ -27,7 +28,7 @@ async def get_float_one_item(item: ForGetFloatSchema) -> dict | None:
                     name=info['item_name'],
                     float_value=info['floatvalue'],
                     paint_seed=info['paintseed']
-                ).dict()
+                )
             except Exception as err:
                 logger.error(err)
                 logger.error(url)
@@ -35,7 +36,7 @@ async def get_float_one_item(item: ForGetFloatSchema) -> dict | None:
                 return None
 
 
-async def pars_all(items: list[ForGetFloatSchema]) -> list[dict]:
+async def pars_all(items: list[ForGetFloatSchema]) -> list[ForGetProfileSchema]:
     tasks = []
     for item in items:
         tasks.append(get_float_one_item(item))
@@ -51,7 +52,7 @@ async def pars_all(items: list[ForGetFloatSchema]) -> list[dict]:
     return items_new
 
 
-def get_float(items: list[ForGetFloatSchema]):
+def get_float(items: list[ForGetFloatSchema]) -> list[ForGetProfileSchema]:
     while True:
         try:
             return asyncio.run(pars_all(items))
