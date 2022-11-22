@@ -5,7 +5,6 @@ import aiohttp
 from loguru import logger
 from schema.items_schema import ForGetFloatSchema
 from schema.new_schema import ForGetProfileSchema
-#from schema.new_schema import ForGetProfileSchema
 from src.urls import BASE_FLOAT_URL
 
 count = 0
