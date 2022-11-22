@@ -1,19 +1,21 @@
-from pydantic import BaseModel
+from typing import NamedTuple
 
 
-class BaseItemSchema(BaseModel):
+class BaseItemSchema(NamedTuple):
     link_dm: str
 
 
-class ForGetFloatSchema(BaseItemSchema):
+class ForGetFloatSchema(NamedTuple):
+    link_dm: str
     in_game: str
 
 
-class ItemsForGetFloatSchema(BaseModel):
+class ItemsForGetFloatSchema(NamedTuple):
     items: list[ForGetFloatSchema]
 
 
-class ForGetProfileSchema(BaseItemSchema):
+class ForGetProfileSchema(NamedTuple):
+    link_dm: str
     name: str
     float_value: float
     paint_seed: int

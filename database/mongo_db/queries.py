@@ -1,7 +1,5 @@
-from pprint import pprint
 from database.mongo_db.setup import dm_items
 from loguru import logger
-
 from schema.new_schema import ItemsForDed
 
 
@@ -12,7 +10,6 @@ class DmMongo:
     def save_all(self, items: list[dict]):
         self.collection.insert_many(items)
         logger.info('Saved new date!')
-
 
     def get_items(self) -> list[ItemsForDed]:
         query = self.collection.find()
@@ -32,4 +29,5 @@ if __name__ == '__main__':
     items = dm.get_items()
     for i in items:
         print(i['name'])
+
 
