@@ -2,8 +2,8 @@ import json
 import requests
 from fake_useragent import UserAgent
 from loguru import logger
-from urls import build_dm_url, BASE_DM_ITEM_URL
-from schema.items_schema import ForGetFloatSchema, ItemsForGetFloatSchema
+from src.urls import build_dm_url, BASE_DM_ITEM_URL
+from schema.items_schema import ForGetFloatSchema
 
 UserAgent().random
 
@@ -27,7 +27,7 @@ def get_one_page(url: str) -> dict:
 
 
 # grab all items from dm up to 300$
-def main(save=False) -> ItemsForGetFloatSchema:
+def get_items_up_to_300() -> list[ForGetFloatSchema]:
     rez = []
     price_from = 0
 
@@ -38,18 +38,13 @@ def main(save=False) -> ItemsForGetFloatSchema:
         rez.extend(extract_in_game_and_link_dm(items))
         price = int(items[-1]['price']['USD'])
 
-        logger.info(f'Getting from dm... {price/300} / 100%')
+        print(f'Getting from dm... {price/300} / 100%')
         price_from = price
 
     logger.info('Got all items from dm!')
-    out = ItemsForGetFloatSchema(items=rez)
-    if save:
-        with open('output/items.json', 'w', encoding='utf8') as file:
-            json.dump(out.dict(), file, indent=2)
-        logger.info('saved! location: output/items.json')
 
-    return out
+    return rez
 
 
 if __name__ == '__main__':
-    main()
+    get_items_up_to_300()

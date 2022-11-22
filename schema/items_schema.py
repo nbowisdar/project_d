@@ -19,5 +19,5 @@ class ForGetProfileSchema(BaseItemSchema):
     paint_seed: int
 
 
-class ItemsForGetProfileSchema(BaseItemSchema):
-    items: list[ForGetProfileSchema]
+# class ItemsForGetProfileSchema(BaseItemSchema):
+#     items: list[ForGetProfileSchema]

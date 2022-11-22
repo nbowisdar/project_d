@@ -1,12 +1,15 @@
-from src.get_float_ import pars_all, start_parsing
-from src.get_items_dmarket import get_all_items_from_dm, get_in_game_and_link_dm
+from database.mongo_db.queries import DmMongo
+from src.get_float_ import get_float
+from src.get_items_dmarket import get_items_up_to_300
 
 
 def main():
-    items = get_all_items_from_dm()
+    dm = DmMongo()
+    items = get_items_up_to_300()
     # TODO check if we already have some items
-    only_new = check_new()
-    in_game_and_link = get_in_game_and_link_dm(items['objects'])
-    start_parsing(in_game_and_link, save=True)
+    #only_new = check_new()
+    items_with_float = get_float(items)
+    dm.delete_prev_save_new(items_with_float)
 
-main()
+if __name__ == '__main__':
+    main()

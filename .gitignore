@@ -9,3 +9,4 @@ database/__pycache__/
 database/sql_db/__pycache__/
 database/sql_db/app.db
 test.py
+database/mongo_db/__pycache__/

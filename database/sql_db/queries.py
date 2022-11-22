@@ -6,20 +6,8 @@ from tables import User, Item
 from loguru import logger
 
 
-def get_all() -> list[ItemSchema]:
-    items = Item.select(User)
-    rez = []
-    for item in items:
-        rez.append(ItemSchema(
-            name=item.name,
-            dm_link=item.dm_link,
-            user=UserSchema(
-                name=item.user.name,
-                profile=item.user.profile,
-                trade_link=item.user.trade_link
-            )
-        ))
-    return rez
+def get_all() -> list[Item]:
+    return Item.select(User)
 
 
 def add_item(item: ItemSchema) -> bool:
@@ -32,3 +20,14 @@ def add_item(item: ItemSchema) -> bool:
         return True
     except IntegrityError:
         return False
+
+
+if __name__ == '__main__':
+    user = UserSchema(
+        name='Vova',
+        profile='my_prof',
+        trade_link='http//:hello'
+    )
+    item = ItemSchema(name='hello', dm_link='123123', user=user)
+    print(item)
+    Item.create(**item.dict())
