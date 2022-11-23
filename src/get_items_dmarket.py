@@ -16,6 +16,7 @@ def extract_in_game_and_link_dm(items: list) -> list[ForGetFloatSchema]:
             link_dm=BASE_DM_ITEM_URL + item['extra']['linkId'],
             in_game=item['extra']['inspectInGame']
         ))
+
     return rez
 
 
@@ -23,6 +24,7 @@ def get_one_page(url: str) -> dict:
     headers = {'User-Agent': UserAgent().random}
     with requests.Session() as session:
         with session.get(url, headers=headers) as resp:
+
             return resp.json()
 
 
@@ -44,7 +46,3 @@ def get_items_up_to_300() -> list[ForGetFloatSchema]:
     logger.info('Got all items from dm!')
 
     return rez
-
-
-if __name__ == '__main__':
-    get_items_up_to_300()

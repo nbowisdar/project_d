@@ -4,11 +4,11 @@ import shutil
 from subprocess import call
 from colorama import init, deinit
 
-import handling_file_system as work_fs
+from .works_fs import *
 
 
 def call_cmd_profile(new_path_profile):
-    if work_fs.file_exists(r"C:\Program Files\Google\Chrome\Application\chrome.exe"):
+    if file_exists(r"C:\Program Files\Google\Chrome\Application\chrome.exe"):
         path_to_chrome = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 
     else:
@@ -31,7 +31,7 @@ def delete_chrome_profile(new_path_profile):
 def copy_chrome_folder():
     """find and copy your default"""
     absolute_path_profiles = os.environ['USERPROFILE'] + r"\AppData\Local\Google\Chrome\User Data"
-    new_path_profile = work_fs.path_near_exefile("Profiles") / "Profile" / "User Data"
+    new_path_profile = path_near_exefile("Profiles") / "Profile" / "User Data"
 
     shutil.copytree(absolute_path_profiles, new_path_profile)
 
@@ -39,13 +39,15 @@ def copy_chrome_folder():
 
 
 def get_profile():
-    list_profiles = os.listdir(work_fs.auto_create(f"Profiles", "dir"))
+    list_profiles = os.listdir(auto_create(f"Profiles", "dir"))
     init()
     if list_profiles:
         deinit()
         return list_profiles
 
     else:
-        work_fs.warning_text("Нет профилей")
+        warning_text("Нет профилей")
         print("Дождись запуска браузера!")
         return copy_chrome_folder()
+
+# TODO user datails
