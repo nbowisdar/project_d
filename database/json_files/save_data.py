@@ -11,32 +11,33 @@ def save_data(data: list[ForGetProfileSchema]):
 
 def get_items() -> list[ItemsForDed]:
     # TODO вставь свой путь откуда будешь вызывать функцию
+    # get path from execute file, if this 'items_for_ded.json' file will be in another folder this path dont work
     with open(Path(__file__).parent / 'items_for_ded.json', 'r', encoding='UTF-8') as file:
-        data = json.load(file)
-        return [ItemsForDed(**item) for item in data]
+        for count, item in enumerate(json.load(file)[14:]):
+            print(count)
+            yield ItemsForDed(**item)
 
-
+#
 # if __name__ == '__main__':
 #     from multiprocessing import freeze_support
-#     from csgofloat import CSGOfloatApi, path_near_exefile, get_profile
+#     from csgofloat import auth, write_data
 #
-#     # need for freeze programm
+#     # need for freeze program
 #     freeze_support()
-#     # call selenl's project
-#     api = CSGOfloatApi(user_data_dir=path_near_exefile("Profiles") / get_profile()[0] / "User Data")
-#     api.auth_csgofloat()
-#     input("Enter")
-    ############################ Began after auth ##########################
-    # def dedova_function(item: ItemsForDed) -> DedovResult:
-    #     return DedovResult(profile_link='prof', trade_link='123')
+#     ############################ auth ##########################
+#     auth()
+#     ##################### work with your data ##################
+#
+#     # def dedova_function(item: ItemsForDed) -> DedovResult:
+#     #     return DedovResult(profile_link='prof', trade_link='123')
+#     #
+#     for item in get_items():
+#         write_data(item)
+#         # input("Enter")
 
-
-    # items = get_items()
-    # for item in items:
-    #     profile_link, trade_link = dedova_function(item)
+        # profile_link, trade_link = dedova_function(item)
     #     item['profile_link'] = profile_link
     #     item['trade_link'] = trade_link
 
     # print(items[0])
-    # TODO create function
     'save_data_to_db(items)'

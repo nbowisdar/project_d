@@ -14,15 +14,14 @@ class CSGOfloatApi(BaseClass):
         super(CSGOfloatApi, self).__init__()
 
         self.user_data_dir = user_data_dir
-        self.DRIVER = self._driver(user_data_dir=self.user_data_dir)
-        self.act = ActionChains(self.DRIVER)
+        self.DRIVER, self.act = self._driver(user_data_dir=self.user_data_dir)
 
     def __prepare_steam(self):
-        if self.click_element('//img[@src="assets/login-steam.png"]'):
+        if self.click_element('//img[@src="assets/login-steam.png"]', wait=5):
             # open steam new tab
             time.sleep(random.uniform(.2, .58))
-            self.DRIVER.execute_cdp_cmd("Target.createTarget",
-                                        {"url": "https://store.steampowered.com/", "newWindow": False})
+            self.DRIVER.tab_new("https://store.steampowered.com/")
+
             # switch new tab
             self.DRIVER.switch_to.window(self.DRIVER.window_handles[-1])
             time.sleep(3 * random.uniform(.2, .58))
@@ -50,3 +49,58 @@ class CSGOfloatApi(BaseClass):
 
         self.DRIVER.get('https://csgofloat.com/db')
 
+    def __send_float_value(self, value):
+        self.send_text_by_elem('//input[@formcontrolname="min"]', value)
+
+        self.send_text_by_elem('//input[@formcontrolname="max"]', value)
+
+    def __filling_filter(self, item):
+        self.click_element('//button[@mattooltip="Clear Search Parameters"]')
+
+        self.send_text_by_elem('//input[@formcontrolname="paintSeed"]', item["paint_seed"])
+
+        self.__send_float_value(item["float_value"])
+        self.__send_float_value(item["float_value"])
+
+        if item["name"] != "-":
+            self.send_text_by_elem('//input[@formcontrolname="name"]', item["name"])
+
+        self.click_element('//mat-spinner-button/button')
+
+    def __get_url_account(self):
+
+        self.xpath_exists('//div[@class="profile_small_header_texture"]/a')
+
+        return self.DRIVER.find_element(By.XPATH,
+                                        '//div[@class="profile_small_header_texture"]/a').get_attribute("href")
+
+    def __get_trade_link(self):
+        # if nothing exists
+        '//div[@class="profile_summary noexpand"]'
+        '//div[contains(text(), "Информация отсутствует.")]'
+        '//div[contains(text(), "No information given.")]'
+
+    def get_links(self, item):
+        self.__filling_filter(item)
+        # wait loading xpath
+        self.xpath_exists('//a[@class="playerAvatar offline"]', wait=70)
+
+        # open and switch new tab
+        self.DRIVER.tab_new(
+            self.DRIVER.find_element(By.XPATH, '//a[@class="playerAvatar offline"]').get_attribute("href")
+        )
+        self.DRIVER.switch_to.window(self.DRIVER.window_handles[-1])
+
+        # get url profile
+        url_account = self.__get_url_account()
+        print(url_account)
+
+        # to go main page profile
+        self.DRIVER.get(url_account)
+
+        # close and switch tabs
+        self.DRIVER.close()
+        self.DRIVER.switch_to.window(self.DRIVER.window_handles[0])
+
+        # return url_account#, trade_link
+# have trade link https://steamcommunity.com/id/seendegalf

@@ -2,6 +2,7 @@
 
 import undetected_chromedriver as uc
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -11,6 +12,7 @@ class BaseClass:
 
     def __init__(self):
         self.DRIVER = None
+        self.act = None
 
     def _driver(self,
                 user_data_dir=None,
@@ -24,9 +26,10 @@ class BaseClass:
                 headless=headless
                 ) as self.DRIVER:
 
-            self.DRIVER.maximize_window()
+                self.DRIVER.maximize_window()
+                self.act = ActionChains(self.DRIVER)
 
-        return self.DRIVER
+                return self.DRIVER, self.act
 
     def xpath_exists(self, xpath, wait=30):
         try:
@@ -42,9 +45,12 @@ class BaseClass:
         except TimeoutException:
             return False
 
-    def send_some_by_elem(self, xpath, element):
+    def send_text_by_elem(self, xpath, text_or_key):
 
-        if self.xpath_exists(xpath):
-            self.DRIVER.find_element(By.XPATH, xpath).send_keys(element)
+        if self.click_element(xpath):
+            research_xpath = self.DRIVER.find_element(By.XPATH, xpath)
+            research_xpath.clear()
+            research_xpath.send_keys(text_or_key)
+
         else:
             input(f"No found {xpath}")
