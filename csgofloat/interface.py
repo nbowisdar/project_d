@@ -4,7 +4,7 @@ import shutil
 from subprocess import call
 from colorama import init, deinit
 
-from .works_fs import *
+from .works_fs import file_exists, path_near_exefile, auto_create, warning_text
 
 
 def call_cmd_profile(new_path_profile):

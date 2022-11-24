@@ -18,12 +18,15 @@ def get_items() -> list[ItemsForDed]:
 
 # if __name__ == '__main__':
 #     from multiprocessing import freeze_support
-#     from csgofloat import main_csgofloat
+#     from csgofloat import CSGOfloatApi, path_near_exefile, get_profile
 #
+#     # need for freeze programm
 #     freeze_support()
-#     main_csgofloat()
-
-
+#     # call selenl's project
+#     api = CSGOfloatApi(user_data_dir=path_near_exefile("Profiles") / get_profile()[0] / "User Data")
+#     api.auth_csgofloat()
+#     input("Enter")
+    ############################ Began after auth ##########################
     # def dedova_function(item: ItemsForDed) -> DedovResult:
     #     return DedovResult(profile_link='prof', trade_link='123')
 
