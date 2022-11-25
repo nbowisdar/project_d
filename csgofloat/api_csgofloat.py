@@ -1,8 +1,6 @@
 import random
 import time
 
-from loguru import logger
-from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 
 from .selenium_driver import BaseClass
@@ -14,7 +12,9 @@ class CSGOfloatApi(BaseClass):
         super(CSGOfloatApi, self).__init__()
 
         self.user_data_dir = user_data_dir
-        self.DRIVER, self.act = self._driver(user_data_dir=self.user_data_dir)
+        self.DRIVER, self.act = self._driver(
+            user_data_dir=self.user_data_dir
+        )
 
     def __prepare_steam(self):
         if self.click_element('//img[@src="assets/login-steam.png"]', wait=5):
@@ -60,7 +60,10 @@ class CSGOfloatApi(BaseClass):
         self.send_text_by_elem('//input[@formcontrolname="paintSeed"]', item["paint_seed"])
 
         self.__send_float_value(item["float_value"])
-        self.__send_float_value(item["float_value"])
+
+        # fix round "float_value" if exists drag settings for float_value
+        if self.xpath_exists('//nouislider'):
+            self.__send_float_value(item["float_value"])
 
         if item["name"] != "-":
             self.send_text_by_elem('//input[@formcontrolname="name"]', item["name"])
@@ -72,35 +75,44 @@ class CSGOfloatApi(BaseClass):
         self.xpath_exists('//div[@class="profile_small_header_texture"]/a')
 
         return self.DRIVER.find_element(By.XPATH,
-                                        '//div[@class="profile_small_header_texture"]/a').get_attribute("href")
+                                        '//div[@class="profile_small_header_texture"]/a'
+                                        ).get_attribute("href")
 
     def __get_trade_link(self):
-        # if nothing exists
-        '//div[@class="profile_summary noexpand"]'
-        '//div[contains(text(), "Информация отсутствует.")]'
-        '//div[contains(text(), "No information given.")]'
+        self.xpath_exists('//body')
+
+        # click "Подробнее" on the steam account
+        self.click_element('//div[contains(@class, "profile_summary_footer")]', wait=2)
+
+        # find trade in title steam profile
+        if self.xpath_exists('//*[contains(@href, "/tradeoffer")]', wait=3):
+            return self.DRIVER.find_element(By.XPATH, '//*[contains(@href, "/tradeoffer")]').get_attribute('href')
+
 
     def get_links(self, item):
         self.__filling_filter(item)
-        # wait loading xpath
-        self.xpath_exists('//a[@class="playerAvatar offline"]', wait=70)
 
-        # open and switch new tab
-        self.DRIVER.tab_new(
-            self.DRIVER.find_element(By.XPATH, '//a[@class="playerAvatar offline"]').get_attribute("href")
-        )
-        self.DRIVER.switch_to.window(self.DRIVER.window_handles[-1])
+        # exists item in table
+        if self.xpath_exists('//tbody', wait=5):
+            # exists profile not market
+            if self.xpath_exists('//a[@class="playerAvatar offline"]', wait=2):
+                # open and switch new tab
+                self.DRIVER.tab_new(
+                    self.DRIVER.find_element(By.XPATH, '//a[@class="playerAvatar offline"]').get_attribute("href")
+                )
+                self.DRIVER.switch_to.window(self.DRIVER.window_handles[-1])
 
-        # get url profile
-        url_account = self.__get_url_account()
-        print(url_account)
+                # get url profile
+                url_account = self.__get_url_account()
 
-        # to go main page profile
-        self.DRIVER.get(url_account)
+                # to go main page profile
+                self.DRIVER.get(url_account)
+                trade_link = self.__get_trade_link()
 
-        # close and switch tabs
-        self.DRIVER.close()
-        self.DRIVER.switch_to.window(self.DRIVER.window_handles[0])
+                # close and switch tabs
+                self.DRIVER.close()
+                self.DRIVER.switch_to.window(self.DRIVER.window_handles[0])
 
-        # return url_account#, trade_link
-# have trade link https://steamcommunity.com/id/seendegalf
+                return url_account, trade_link
+
+        return None, None

@@ -24,12 +24,12 @@ class BaseClass:
                 user_data_dir=user_data_dir,
                 browser_executable_path=browser_executable_path,
                 headless=headless
-                ) as self.DRIVER:
+        ) as self.DRIVER:
 
-                self.DRIVER.maximize_window()
-                self.act = ActionChains(self.DRIVER)
+            self.DRIVER.maximize_window()
+            self.act = ActionChains(self.DRIVER)
 
-                return self.DRIVER, self.act
+            return self.DRIVER, self.act
 
     def xpath_exists(self, xpath, wait=30):
         try:
