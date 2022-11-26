@@ -11,4 +11,4 @@ database/sql_db/app.db
 test.py
 database/mongo_db/__pycache__/
 database/json_files/__pycache__/
-database/json_files/items_for_ded.json
+items_for_ded.json

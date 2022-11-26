@@ -1,7 +1,7 @@
 from peewee import IntegrityError
 from schema.new_schema import ForGetProfileSchema, ItemsForDed
-from setup import db
-from tables import User, Item
+from .setup import db
+from .tables import User, Item
 from loguru import logger
 
 
@@ -44,6 +44,3 @@ def save_item_in_db(item: ItemsForDed):
 #         paint_seed=2
 #     )
 #     save_item_in_db(x)
-
-
-

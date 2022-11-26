@@ -20,10 +20,17 @@ class BaseClass:
                 headless=False,
                 ):
 
+        options = uc.ChromeOptions()
+
+        options.add_argument("--disable-renderer-backgrounding")
+        options.add_argument("--disable-backgrounding-occluded-windows")
+
         with uc.Chrome(
+                options=options,
                 user_data_dir=user_data_dir,
                 browser_executable_path=browser_executable_path,
                 headless=headless
+
         ) as self.DRIVER:
 
             self.DRIVER.maximize_window()
