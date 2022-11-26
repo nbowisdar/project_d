@@ -1,5 +1,6 @@
 from peewee import IntegrityError
 
+from schema.new_schema import ForGetProfileSchema, ItemsForDed
 from schema.sql_schema import ItemSchema, UserSchema
 from setup import db
 from tables import User, Item
@@ -10,24 +11,58 @@ def get_all() -> list[Item]:
     return Item.select(User)
 
 
-def add_item(item: ItemSchema) -> bool:
+def _save_user(profile_link: str, trade_link: str) -> User | None:
     try:
-        Item.create(
-            name=item.name,
-            dm_link=item.dm_link,
-            user=item.user
-        )
-        return True
-    except IntegrityError:
-        return False
+        if profile_link:
+            with db.atomic():
+                return User.create(profile=profile_link, trade_link=trade_link)
+        return None
+    except IntegrityError as err:
+        logger.error(err)
 
 
-if __name__ == '__main__':
-    user = UserSchema(
-        name='Vova',
-        profile='my_prof',
-        trade_link='http//:hello'
+def _save_item(item_name: str, dm_link: str, user: User = None):
+    try:
+        with db.atomic():
+            Item.create(name=item_name, dm_link=dm_link, user=user)
+    except IntegrityError as err:
+        logger.error(err)
+
+def save_item_in_db(item: ItemsForDed):
+    current_user = _save_user(item['profile_link'], item['trade_link'])
+    _save_item(
+        item['name'], item['link_dm'], current_user
     )
-    item = ItemSchema(name='hello', dm_link='123123', user=user)
-    print(item)
-    Item.create(**item.dict())
+
+
+# def add_item(item: ItemsForDed) -> bool:
+#     try:
+#         Item.create(
+#             name=item['name'],
+#             dm_link=item['link_dm'],
+#             user=item.user
+#         )
+#         return True
+#     except IntegrityError:
+#         return False
+#     class ItemsForDed(TypedDict):
+#         link_dm: str
+#         name: str
+#         float_value: float
+#         paint_seed: int
+#         profile_link: str | None
+#         trade_link: str | None
+
+# if __name__ == '__main__':
+#     x = ItemsForDed(
+#         link_dm='12345',
+#         name='test',
+#         profile_link='pr1of2',
+#         trade_link='trade',
+#         float_value=123.2,
+#         paint_seed=2
+#     )
+#     save_item_in_db(x)
+
+
+

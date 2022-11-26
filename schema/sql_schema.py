@@ -1,13 +1,13 @@
-from pydantic import BaseModel
+from typing import TypedDict
 
 
-class UserSchema(BaseModel):
+class UserSchema(TypedDict):
     name: str
     profile: str
     trade_link: str | None
 
 
-class ItemSchema(BaseModel):
+class ItemSchema(TypedDict):
     name: str
     dm_link: str
     user: UserSchema
