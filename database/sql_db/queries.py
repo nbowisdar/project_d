@@ -1,7 +1,5 @@
 from peewee import IntegrityError
-
 from schema.new_schema import ForGetProfileSchema, ItemsForDed
-from schema.sql_schema import ItemSchema, UserSchema
 from setup import db
 from tables import User, Item
 from loguru import logger
@@ -28,30 +26,13 @@ def _save_item(item_name: str, dm_link: str, user: User = None):
     except IntegrityError as err:
         logger.error(err)
 
+
 def save_item_in_db(item: ItemsForDed):
     current_user = _save_user(item['profile_link'], item['trade_link'])
     _save_item(
         item['name'], item['link_dm'], current_user
     )
 
-
-# def add_item(item: ItemsForDed) -> bool:
-#     try:
-#         Item.create(
-#             name=item['name'],
-#             dm_link=item['link_dm'],
-#             user=item.user
-#         )
-#         return True
-#     except IntegrityError:
-#         return False
-#     class ItemsForDed(TypedDict):
-#         link_dm: str
-#         name: str
-#         float_value: float
-#         paint_seed: int
-#         profile_link: str | None
-#         trade_link: str | None
 
 # if __name__ == '__main__':
 #     x = ItemsForDed(

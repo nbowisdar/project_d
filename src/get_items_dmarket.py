@@ -1,9 +1,8 @@
-import json
 import requests
 from fake_useragent import UserAgent
 from loguru import logger
 from src.urls import build_dm_url, BASE_DM_ITEM_URL
-from schema.items_schema import ForGetFloatSchema
+from schema.new_schema import ForGetFloatSchema
 
 UserAgent().random
 
@@ -24,7 +23,6 @@ def get_one_page(url: str) -> dict:
     headers = {'User-Agent': UserAgent().random}
     with requests.Session() as session:
         with session.get(url, headers=headers) as resp:
-
             return resp.json()
 
 

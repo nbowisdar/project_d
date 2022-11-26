@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from schema.new_schema import ItemsForDed, ForGetProfileSchema, DedovResult
+from schema.new_schema import ItemsForDed, ForGetProfileSchema
 
 
 def save_data(data: list[ForGetProfileSchema]):
