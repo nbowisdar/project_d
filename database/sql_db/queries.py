@@ -1,5 +1,7 @@
 from peewee import IntegrityError
 from schema.new_schema import ForGetProfileSchema, ItemsForDed
+
+from dmarket.schema.new_schema import ForGetFloatSchema
 from setup import db
 from tables import User, Item
 from loguru import logger
@@ -34,16 +36,27 @@ def save_item_in_db(item: ItemsForDed):
     )
 
 
-# if __name__ == '__main__':
-#     x = ItemsForDed(
-#         link_dm='12345',
-#         name='test',
-#         profile_link='pr1of2',
-#         trade_link='trade',
-#         float_value=123.2,
-#         paint_seed=2
-#     )
-#     save_item_in_db(x)
+def check_new(items: list[ForGetFloatSchema]) -> list[ForGetFloatSchema]:
+    new_items = []
+    old_items = Item.select()
+    for item in items:
+        exists = old_items.get_or_none(dm_link=item.link_dm)
+        if exists:
+            continue
+        new_items.append(item)
+    return new_items
+#
+if __name__ == '__main__':
+    x = ItemsForDed(
+        link_dm='12345',
+        name='test',
+        profile_link='pr1of2',
+        trade_link='trade',
+        float_value=123.2,
+        paint_seed=2
+    )
+    save_item_in_db(x)
+    s = []
 
 
 
