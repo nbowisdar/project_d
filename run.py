@@ -1,5 +1,5 @@
 from mains.main import volodya_part
-#from mains.main2 import did_part
+from mains.main2 import did_part
 from loguru import logger
 
 

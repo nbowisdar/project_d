@@ -5,7 +5,7 @@ from database.sql_db.queries import save_item_in_db
 from database.json_files.save_data import get_items
 
 
-def main():
+def did_part():
     # need for freeze program
     freeze_support()
     # check auth
@@ -16,5 +16,5 @@ def main():
         save_item_in_db(item)
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
