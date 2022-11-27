@@ -87,8 +87,10 @@ class CSGOfloatApi(BaseClass):
         self.click_element('//div[contains(@class, "profile_summary_footer")]', wait=2)
 
         # find trade in title steam profile
-        if self.xpath_exists('//*[contains(@href, "/tradeoffer")]', wait=3):
-            return self.DRIVER.find_element(By.XPATH, '//*[contains(@href, "/tradeoffer")]').get_attribute('href')
+        if self.xpath_exists('//*[contains(@href, "/tradeoffer") and @target="_blank"]', wait=3):
+            return self.DRIVER.find_element(
+                By.XPATH, '//*[contains(@href, "/tradeoffer") and @target="_blank"]'
+            ).get_attribute('href')
 
     def get_links(self, item):
         self.__filling_filter(item)

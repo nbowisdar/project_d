@@ -1,6 +1,7 @@
 """ This file work with Selenium """
 
 import undetected_chromedriver as uc
+
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By

@@ -14,6 +14,7 @@ def auth():
 
 def write_item(item):
     url_account, trade_link = api.get_links(item)
+    print(trade_link)
     item['profile_link'] = url_account
     item['trade_link'] = trade_link
 
