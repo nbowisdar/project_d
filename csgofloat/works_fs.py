@@ -1,12 +1,12 @@
 import ctypes
 import os
 import sys
+import time
 
 from pathlib import Path
 import subprocess
 import random
 from colorama import Fore, Style, Back
-
 
 
 def warning_text(text):
@@ -53,7 +53,7 @@ def dir_exists(path_to_dir) -> bool:
         return False
 
 
-def path_near_exefile(filename):
+def path_near_exefile(filename=""):
     """
     create=visible :create folder or file is visible for users
     create=hidden :create folder or file is hidden for users
@@ -176,3 +176,8 @@ def delete_line(filename, number=str):
         file.seek(0)
         file.truncate()
         file.writelines(lines)
+
+
+def wait_file_exists(filepath):
+    while not file_exists(filepath):
+        time.sleep(1)

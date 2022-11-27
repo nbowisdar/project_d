@@ -1,6 +1,7 @@
 import random
 import time
 
+import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 
 from .selenium_driver import BaseClass
@@ -13,7 +14,8 @@ class CSGOfloatApi(BaseClass):
 
         self.user_data_dir = user_data_dir
         self.DRIVER, self.act = self._driver(
-            user_data_dir=self.user_data_dir
+            user_data_dir=self.user_data_dir,
+            browser_executable_path=uc.find_chrome_executable()
         )
 
     def __prepare_steam(self):
@@ -85,9 +87,10 @@ class CSGOfloatApi(BaseClass):
         self.click_element('//div[contains(@class, "profile_summary_footer")]', wait=2)
 
         # find trade in title steam profile
-        if self.xpath_exists('//*[contains(@href, "/tradeoffer")]', wait=3):
-            return self.DRIVER.find_element(By.XPATH, '//*[contains(@href, "/tradeoffer")]').get_attribute('href')
-
+        if self.xpath_exists('//*[contains(@href, "/tradeoffer") and @target="_blank"]', wait=3):
+            return self.DRIVER.find_element(
+                By.XPATH, '//*[contains(@href, "/tradeoffer") and @target="_blank"]'
+            ).get_attribute('href')
 
     def get_links(self, item):
         self.__filling_filter(item)

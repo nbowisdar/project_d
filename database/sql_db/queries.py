@@ -1,9 +1,8 @@
 from peewee import IntegrityError
-from schema.new_schema import ForGetProfileSchema, ItemsForDed
+from schema.new_schema import ItemsForDed, ForGetFloatSchema
 
-from dmarket.schema.new_schema import ForGetFloatSchema
-from setup import db
-from tables import User, Item
+from .setup import db
+from .tables import User, Item
 from loguru import logger
 
 
@@ -46,6 +45,7 @@ def check_new(items: list[ForGetFloatSchema]) -> list[ForGetFloatSchema]:
         new_items.append(item)
     return new_items
 #
+
 if __name__ == '__main__':
     x = ItemsForDed(
         link_dm='12345',
@@ -57,6 +57,7 @@ if __name__ == '__main__':
     )
     save_item_in_db(x)
     s = []
+
 
 
 
