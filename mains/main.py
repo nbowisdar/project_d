@@ -16,5 +16,5 @@ def volodya_part():
     save_data(items_with_float)
 
 
-# if __name__ == '__main__':
-#     volodya_part()
+if __name__ == '__main__':
+    volodya_part()

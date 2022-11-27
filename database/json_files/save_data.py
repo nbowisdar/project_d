@@ -1,7 +1,5 @@
 import json
-
 from schema.new_schema import ItemsForDed, ForGetProfileSchema
-
 from csgofloat import path_near_exefile, wait_file_exists
 
 

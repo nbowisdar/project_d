@@ -12,6 +12,7 @@ def extract_in_game_and_link_dm(items: list) -> list[ForGetFloatSchema]:
     rez = []
     for item in items:
         rez.append(ForGetFloatSchema(
+            item_name=item['extra']['name'],
             link_dm=BASE_DM_ITEM_URL + item['extra']['linkId'],
             in_game=item['extra']['inspectInGame']
         ))
@@ -32,7 +33,7 @@ def get_items_up_to_300() -> list[ForGetFloatSchema]:
     price_from = 0
     # while testing we parse only up to 90
     # TODO change to 30000 when go to production
-    price_up_to = 8000
+    price_up_to = 30000
 
     while price_from < price_up_to:
         current_url = build_dm_url(price_from)

@@ -25,7 +25,7 @@ async def get_float_one_item(item: ForGetFloatSchema) -> ForGetProfileSchema | N
                 info = json.loads(resp_j)['iteminfo']
                 return ForGetProfileSchema(
                     link_dm=item.link_dm,
-                    name=info['item_name'],
+                    name=item.item_name,
                     float_value=info['floatvalue'],
                     paint_seed=info['paintseed']
                 )

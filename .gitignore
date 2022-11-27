@@ -19,6 +19,7 @@ csgofloat/__pycache__/interface.cpython-310.pyc
 csgofloat/__pycache__/main_csgofloat.cpython-310.pyc
 csgofloat/__pycache__/selenium_driver.cpython-310.pyc
 app.db
+database/json_files/save_data.py
 
 
 
