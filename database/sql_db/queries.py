@@ -39,7 +39,7 @@ def check_new(items: list[ForGetFloatSchema]) -> list[ForGetFloatSchema]:
     new_items = []
     old_items = Item.select()
     for item in items:
-        exists = old_items.get_or_none(dm_link=item.link_dm)
+        exists = old_items.where(Item.dm_link == item.link_dm).get_or_none()
         if exists:
             continue
         new_items.append(item)

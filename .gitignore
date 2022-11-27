@@ -14,4 +14,11 @@ database/json_files/__pycache__/
 database/json_files/items_for_ded.json
 mains/__pycache__/
 items_for_ded.json
+csgofloat/__pycache__/api_csgofloat.cpython-310.pyc
+csgofloat/__pycache__/interface.cpython-310.pyc
+csgofloat/__pycache__/main_csgofloat.cpython-310.pyc
+csgofloat/__pycache__/selenium_driver.cpython-310.pyc
+app.db
+
+
 

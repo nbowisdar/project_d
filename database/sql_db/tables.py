@@ -14,6 +14,10 @@ class Item(BaseModel):
     user = ForeignKeyField(User, backref='items', null=True)
 
 
-if __name__ == '__main__':
+def create_table():
     with db.atomic():
         db.create_tables([User, Item])
+
+# if __name__ == '__main__':
+#     with db.atomic():
+#         db.create_tables([User, Item])

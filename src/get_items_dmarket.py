@@ -30,17 +30,19 @@ def get_one_page(url: str) -> dict:
 def get_items_up_to_300() -> list[ForGetFloatSchema]:
     rez = []
     price_from = 0
+    # while testing we parse only up to 90
+    # TODO change to 30000 when go to production
+    price_up_to = 8000
 
-    while price_from < 30000:
+    while price_from < price_up_to:
         current_url = build_dm_url(price_from)
         data = get_one_page(current_url)
         items = data['objects']
         rez.extend(extract_in_game_and_link_dm(items))
         price = int(items[-1]['price']['USD'])
 
-        print(f'Getting from dm... {price/300} / 100%')
+        print(f'Getting from dm... {price/(price_up_to / 100)} / 100%')
         price_from = price
 
-    logger.info('Got all items from dm!')
-
+    logger.info(f'Got {len(rez)} new items from dm!')
     return rez

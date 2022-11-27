@@ -8,13 +8,14 @@ from src.urls import BASE_FLOAT_URL
 
 count = 0
 errors = 0
+all_items_amount = 0
 
 
 async def get_float_one_item(item: ForGetFloatSchema) -> ForGetProfileSchema | None:
     global errors
     global count
     count += 1
-    print(f'Loading... {count / 9} / 100 %')
+    print(f'Loading... {count} / {all_items_amount} ')
     async with aiohttp.ClientSession() as session:
         headers = {'User-Agent': UserAgent().random}
         url = BASE_FLOAT_URL+item.in_game
@@ -37,6 +38,8 @@ async def get_float_one_item(item: ForGetFloatSchema) -> ForGetProfileSchema | N
 
 async def pars_all(items: list[ForGetFloatSchema]) -> list[ForGetProfileSchema]:
     tasks = []
+    global all_items_amount
+    all_items_amount = len(items)
     for item in items:
         tasks.append(get_float_one_item(item))
     logger.info('all tasks generated')
