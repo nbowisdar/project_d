@@ -11,7 +11,7 @@ def save_data(data: list[ForGetProfileSchema]):
 
 def get_items() -> list[ItemsForDed]:
     # wait file
-    wait_file_exists(path_near_exefile().parent / 'items_for_ded.json')
+    # wait_file_exists(path_near_exefile().parent / 'items_for_ded.json')
 
     with open(path_near_exefile().parent / 'items_for_ded.json', 'r', encoding='UTF-8') as file:
         for item in json.load(file):

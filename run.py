@@ -1,8 +1,11 @@
-from mains.main import volodya_part
-from mains.main2 import did_part
+from multiprocessing import freeze_support
 from loguru import logger
 
+from mains.main import volodya_part
+from mains.main2 import did_part
 
+
+@logger.catch
 def main():
     # first part
     try:
@@ -20,4 +23,19 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # need for freeze program
+    try:
+        freeze_support()
+
+        logger.add(
+            "csgo.log",
+            format="{time} {level} {message}",
+            level="ERROR",
+            rotation="10 MB",
+            compression="zip"
+        )
+
+        main()
+
+    finally:
+        input()
