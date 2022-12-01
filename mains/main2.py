@@ -1,3 +1,4 @@
+from loguru import logger
 
 from csgofloat import auth, write_item
 from database.sql_db.queries import save_item_in_db
@@ -11,7 +12,6 @@ def did_part():
     for item in get_items():
         item = write_item(item)
         save_item_in_db(item)
-
 
 # if __name__ == '__main__':
 #     main()

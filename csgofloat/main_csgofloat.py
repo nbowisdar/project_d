@@ -1,20 +1,23 @@
-
 from .works_fs import path_near_exefile  # if you need path to your file
-from .interface import get_profile
 from .api_csgofloat import CSGOfloatApi
 
 
 def auth():
-
     global api
 
-    api = CSGOfloatApi(user_data_dir=path_near_exefile().parent / "Profile" / get_profile()[0])
-    api.auth_csgofloat()
+    api = CSGOfloatApi(user_data_dir=path_near_exefile("Profile") / "User Data")
+    try:
+        api.auth_csgofloat()
+    finally:
+        api.DRIVER.quit()
 
 
 def write_item(item):
-    url_account, trade_link = api.get_links(item)
-    item['profile_link'] = url_account
-    item['trade_link'] = trade_link
+    try:
+        url_account, trade_link = api.get_links(item)
+        item['profile_link'] = url_account
+        item['trade_link'] = trade_link
+    finally:
+        api.DRIVER.quit()
 
     return item
