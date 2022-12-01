@@ -4,9 +4,13 @@ from loguru import logger
 from mains.main import volodya_part
 from mains.main2 import did_part
 
+from csgofloat import check_profile_exists
 
 @logger.catch
 def main():
+    # for work chrome through profile
+    check_profile_exists()
+
     # first part
     try:
         volodya_part()
@@ -15,11 +19,7 @@ def main():
         logger.error('Volodya made a mistake')
 
     # second part
-    try:
-        did_part()
-    except Exception as err:
-        logger.error(err)
-        logger.error('Did made a mistake')
+    did_part()
 
 
 if __name__ == '__main__':
