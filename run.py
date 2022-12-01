@@ -5,6 +5,7 @@ from mains.main2 import did_part
 
 from csgofloat import check_profile_exists
 
+
 @logger.catch
 def main():
     # for work chrome through profile
@@ -16,7 +17,7 @@ def main():
     except Exception as err:
         logger.error(err)
         logger.error('Volodya made a mistake')
-    exit(1)
+
     # second part
     did_part()
 

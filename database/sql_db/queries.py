@@ -30,10 +30,12 @@ def _save_item(item_name: str, dm_link: str, user: User = None):
 
 
 def save_item_in_db(item: ItemsForDed):
+    logger.info("before save links")
     current_user = _save_user(item['profile_link'], item['trade_link'])
     _save_item(
         item['name'], item['link_dm'], current_user
     )
+    logger.info("after save links")
 
 
 def check_new(items: list[ForGetFloatSchema]) -> list[ForGetFloatSchema]:
@@ -65,17 +67,16 @@ def save_only_items_in_db(items: list[ForGetProfileSchema]) -> bool:
 
 def get_didovi_items() -> list[ForGetProfileSchema]:
     items = ItemFullData.select()
-    rez = []
     for item in items:
-        rez.append(ForGetProfileSchema(
+        yield ForGetProfileSchema(
             link_dm=item.link_dm,
             name=item.name,
             float_value=item.float_value,
             paint_seed=item.paint_seed
-        ))
-    return rez
+        )
 
 
-if __name__ == '__main__':
-    x = get_didovi_items()
-    print(x)
+#
+# if __name__ == '__main__':
+#     x = get_didovi_items()
+#     print(x)
