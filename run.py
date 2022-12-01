@@ -1,8 +1,10 @@
+from multiprocessing import freeze_support
+from loguru import logger
 from mains.main import volodya_part
 from mains.main2 import did_part
-from loguru import logger
 
 
+@logger.catch
 def main():
     # first part
     try:
@@ -10,7 +12,7 @@ def main():
     except Exception as err:
         logger.error(err)
         logger.error('Volodya made a mistake')
-
+    exit(1)
     # second part
     try:
         did_part()
@@ -20,4 +22,20 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+
+    # need for freeze program
+    try:
+        freeze_support()
+
+        logger.add(
+            "csgo.log",
+            format="{time} {level} {message}",
+            level="ERROR",
+            rotation="10 MB",
+            compression="zip"
+        )
+
+        main()
+
+    finally:
+        input()

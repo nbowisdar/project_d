@@ -1,11 +1,10 @@
-import ctypes
+
 import os
 import sys
 import time
 
 from pathlib import Path
 import subprocess
-import random
 from colorama import Fore, Style, Back
 
 

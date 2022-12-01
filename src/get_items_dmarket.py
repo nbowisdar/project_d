@@ -28,12 +28,11 @@ def get_one_page(url: str) -> dict:
 
 
 # grab all items from dm up to 300$
-def get_items_up_to_300() -> list[ForGetFloatSchema]:
+def get_items_up_to_300(price_up_to=30000) -> list[ForGetFloatSchema]:
     rez = []
     price_from = 0
     # while testing we parse only up to 90
     # TODO change to 30000 when go to production
-    price_up_to = 30000
 
     while price_from < price_up_to:
         current_url = build_dm_url(price_from)

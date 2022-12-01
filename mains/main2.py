@@ -1,4 +1,3 @@
-from multiprocessing import freeze_support
 
 from csgofloat import auth, write_item
 from database.sql_db.queries import save_item_in_db
@@ -6,8 +5,6 @@ from database.json_files.save_data import get_items
 
 
 def did_part():
-    # need for freeze program
-    freeze_support()
     # check auth
     auth()
 
