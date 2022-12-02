@@ -37,7 +37,7 @@ def get_items_up_to_300(price_up_to=30000) -> list[ForGetFloatSchema]:
     # TODO change to 30000 when go to production
 
     while price_from < price_up_to:
-        time.sleep(5)
+        #time.sleep(5)
         current_url = build_dm_url(price_from)
         data = get_one_page(current_url)
         items = data['objects']

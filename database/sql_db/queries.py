@@ -74,11 +74,11 @@ def save_only_items_in_db(items: list[ForGetProfileSchema]) -> bool:
 #             paint_seed=item.paint_seed
 #         )
 
-def get_didovi_items() -> list[ForGetProfileSchema]:
-    items = ItemFullData.select()
+def get_didovi_items() -> list[ItemsForDed]:
+    items = Item.select().where(Item.user is None)
     rez = []
     for item in items:
-        rez.append(ForGetProfileSchema(
+        rez.append(ItemsForDed(
             link_dm=item.link_dm,
             name=item.name,
             float_value=item.float_value,

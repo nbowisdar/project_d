@@ -11,6 +11,8 @@ class User(BaseModel):
 class Item(BaseModel):
     name = CharField()
     dm_link = CharField(unique=True)
+    float_value = FloatField()
+    paint_seed = IntegerField()
     user = ForeignKeyField(User, backref='items', null=True)
 
 
