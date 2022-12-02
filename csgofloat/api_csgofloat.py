@@ -73,7 +73,7 @@ class CSGOfloatApi(BaseClass):
         self.__filling_filter(item)
 
         # exists item in table
-        if self.xpath_exists('//tbody', wait=5):
+        if self.xpath_exists('//tbody'):
             # exists profile not market
             if self.xpath_exists('//a[contains(@class, "playerAvatar")]', wait=2):
                 # open and switch new tab
@@ -95,7 +95,4 @@ class CSGOfloatApi(BaseClass):
 
                 return url_account, trade_link
 
-            elif self.xpath_exists('//a[contains(text(), "Market") and @target="_blank"]'):
-                return "NotFound", "NotFound"
-
-        return None, None
+        return "NotFound", "NotFound"
