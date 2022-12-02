@@ -1,9 +1,11 @@
 """ This file work with Selenium """
+import random
+import time
 
 import undetected_chromedriver as uc
 
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver import ActionChains
+from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -59,6 +61,8 @@ class BaseClass:
             research_xpath = self.DRIVER.find_element(By.XPATH, xpath)
             research_xpath.clear()
             research_xpath.send_keys(text_or_key)
+            time.sleep(2 * random.uniform(.2, .58))
+            research_xpath.send_keys(Keys.ENTER)
 
         else:
             input(f"No found {xpath}")

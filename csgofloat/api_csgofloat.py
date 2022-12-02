@@ -32,21 +32,20 @@ class CSGOfloatApi(BaseClass):
 
     def __filling_filter(self, item):
         self.click_element('//button[@mattooltip="Clear Search Parameters"]')
+        if item["name"] != "-":
+            self.send_text_by_elem('//input[@formcontrolname="name"]', item["name"])
+            # time.sleep(3 * random.uniform(.2, .58))
 
         self.send_text_by_elem('//input[@formcontrolname="paintSeed"]', item["paint_seed"])
-        time.sleep(3 * random.uniform(.2, .58))
+        # time.sleep(3 * random.uniform(.2, .58))
 
         self.__send_float_value(item["float_value"])
-        time.sleep(2 * random.uniform(.2, .58))
+        # time.sleep(2 * random.uniform(.2, .58))
 
         # fix round "float_value" if exists drag settings for float_value
         if self.xpath_exists('//nouislider'):
             self.__send_float_value(item["float_value"])
-            time.sleep(2 * random.uniform(.2, .58))
-
-        if item["name"] != "-":
-            self.send_text_by_elem('//input[@formcontrolname="name"]', item["name"])
-            time.sleep(3 * random.uniform(.2, .58))
+            # time.sleep(2 * random.uniform(.2, .58))
 
         self.click_element('//mat-spinner-button/button')
 
@@ -76,10 +75,10 @@ class CSGOfloatApi(BaseClass):
         # exists item in table
         if self.xpath_exists('//tbody', wait=5):
             # exists profile not market
-            if self.xpath_exists('//a[@class="playerAvatar offline"]', wait=2):
+            if self.xpath_exists('//a[contains(@class, "playerAvatar")]', wait=2):
                 # open and switch new tab
                 self.DRIVER.tab_new(
-                    self.DRIVER.find_element(By.XPATH, '//a[@class="playerAvatar offline"]').get_attribute("href")
+                    self.DRIVER.find_element(By.XPATH, '//a[contains(@class, "playerAvatar")]').get_attribute("href")
                 )
                 self.DRIVER.switch_to.window(self.DRIVER.window_handles[-1])
 
@@ -95,5 +94,8 @@ class CSGOfloatApi(BaseClass):
                 self.DRIVER.switch_to.window(self.DRIVER.window_handles[0])
 
                 return url_account, trade_link
+
+            elif self.xpath_exists('//a[contains(text(), "Market") and @target="_blank"]'):
+                return "NotFound", "NotFound"
 
         return None, None
