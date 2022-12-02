@@ -65,15 +65,27 @@ def save_only_items_in_db(items: list[ForGetProfileSchema]) -> bool:
         return False
 
 
+# def get_didovi_items() -> list[ForGetProfileSchema]:
+#     items = ItemFullData.select()
+#     for item in items:
+#         yield ForGetProfileSchema(
+#             link_dm=item.link_dm,
+#             name=item.name,
+#             float_value=item.float_value,
+#             paint_seed=item.paint_seed
+#         )
+
 def get_didovi_items() -> list[ForGetProfileSchema]:
     items = ItemFullData.select()
+    rez = []
     for item in items:
-        yield ForGetProfileSchema(
+        rez.append(ForGetProfileSchema(
             link_dm=item.link_dm,
             name=item.name,
             float_value=item.float_value,
             paint_seed=item.paint_seed
-        )
+        ))
+    return rez
 
 
 #

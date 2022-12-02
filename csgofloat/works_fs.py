@@ -64,7 +64,7 @@ def path_near_exefile(filename=""):
         path = Path(sys.executable).parent / filename
 
     else:
-        path = Path(__file__).parent / filename
+        path = Path(__file__).parent.parent / filename
 
     return path
 
