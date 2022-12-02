@@ -93,7 +93,7 @@ class CSGOfloatApi(BaseClass):
                 # close and switch tabs
                 self.DRIVER.close()
                 self.DRIVER.switch_to.window(self.DRIVER.window_handles[0])
-                
+
                 return url_account, trade_link
 
         return None, None

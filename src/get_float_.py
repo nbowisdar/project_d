@@ -1,5 +1,7 @@
 import asyncio
 import json
+import time
+
 from fake_useragent import UserAgent
 import aiohttp
 from loguru import logger
@@ -41,6 +43,7 @@ async def pars_all(items: list[ForGetFloatSchema]) -> list[ForGetProfileSchema]:
     global all_items_amount
     all_items_amount = len(items)
     for item in items:
+        # time.sleep(10)  # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         tasks.append(get_float_one_item(item))
     logger.info('all tasks generated')
 

@@ -5,7 +5,7 @@ from src.get_float_ import get_float
 from src.get_items_dmarket import get_items_up_to_300
 from loguru import logger
 
-
+@logger.catch
 def volodya_part():
     # create tables for db
     create_table()

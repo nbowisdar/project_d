@@ -23,26 +23,25 @@ def _save_user(profile_link: str, trade_link: str) -> User | None:
 def _save_item(item_name: str, dm_link: str, user: User = None):
     try:
         with db.atomic():
-            Item.create(name=item_name, dm_link=dm_link, user=user)
+            Item.create(name=item_name, dm_link=dm_link, user=user[0])
     except IntegrityError as err:
         logger.error(err)
-        logger.debug(item_name, dm_link, user)
 
 
 def save_item_in_db(item: ItemsForDed):
-    logger.info("before save links")
     current_user = _save_user(item['profile_link'], item['trade_link'])
+    print(type(current_user))
+    print(current_user)
     _save_item(
         item['name'], item['link_dm'], current_user
     )
-    logger.info("after save links")
 
 
 def check_new(items: list[ForGetFloatSchema]) -> list[ForGetFloatSchema]:
     new_items = []
-    old_items = Item.select()
+    old_items = ItemFullData.select()
     for item in items:
-        exists = old_items.where(Item.dm_link == item.link_dm).get_or_none()
+        exists = old_items.where(ItemFullData.link_dm == item.link_dm).get_or_none()
         if exists:
             continue
         new_items.append(item)
