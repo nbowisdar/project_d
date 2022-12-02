@@ -6,10 +6,7 @@ def auth():
     global api
 
     api = CSGOfloatApi(user_data_dir=path_near_exefile("Profile") / "User Data")
-    try:
-        api.auth_csgofloat()
-    finally:
-        api.DRIVER.quit()
+    api.auth_csgofloat()
 
 
 def write_item(item):
