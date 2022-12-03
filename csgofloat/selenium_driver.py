@@ -29,11 +29,10 @@ class BaseClass:
         options.add_argument("--disable-backgrounding-occluded-windows")
 
         with uc.Chrome(
-                options=options,
-                user_data_dir=user_data_dir,
-                browser_executable_path=browser_executable_path,
-                headless=headless
-
+            options=options,
+            user_data_dir=user_data_dir,
+            browser_executable_path=browser_executable_path,
+            headless=headless
         ) as self.DRIVER:
 
             self.DRIVER.maximize_window()
@@ -61,8 +60,6 @@ class BaseClass:
             research_xpath = self.DRIVER.find_element(By.XPATH, xpath)
             research_xpath.clear()
             research_xpath.send_keys(text_or_key)
-            time.sleep(2 * random.uniform(.2, .58))
-            research_xpath.send_keys(Keys.ENTER)
 
         else:
             input(f"No found {xpath}")

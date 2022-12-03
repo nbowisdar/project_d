@@ -1,4 +1,3 @@
-from loguru import logger
 
 from .works_fs import path_near_exefile  # if you need path to your file
 from .api_csgofloat import CSGOfloatApi
@@ -7,8 +6,12 @@ from .api_csgofloat import CSGOfloatApi
 def auth():
     global api
 
-    api = CSGOfloatApi(user_data_dir=path_near_exefile("Profile") / "User Data")
-    api.auth_csgofloat()
+    try:
+        api = CSGOfloatApi(user_data_dir=path_near_exefile("Profile") / "User Data")
+        api.auth_csgofloat()
+
+    except Exception:
+        api.DRIVER.quit()
 
 
 def write_item(item):
@@ -16,6 +19,7 @@ def write_item(item):
         url_account, trade_link = api.get_links(item)
         item['profile_link'] = url_account
         item['trade_link'] = trade_link
+
     except Exception:
         api.DRIVER.quit()
 
