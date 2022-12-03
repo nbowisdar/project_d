@@ -1,5 +1,5 @@
 from database.sql_db.setup import db, BaseModel
-from peewee import Model, CharField, ForeignKeyField, IntegerField, FloatField
+from peewee import Model, CharField, ForeignKeyField, IntegerField, FloatField, BooleanField
 
 
 class User(BaseModel):
@@ -21,6 +21,7 @@ class ItemFullData(BaseModel):
     name = CharField()
     float_value = FloatField()
     paint_seed = IntegerField()
+    is_parsed = BooleanField(default=False)
 
 
 def create_table():

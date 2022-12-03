@@ -20,18 +20,24 @@ def _save_user(profile_link: str, trade_link: str) -> User | None:
         logger.error(err)
 
 
-def _save_item(item_name: str, dm_link: str, user: User = None):
+def _save_item(item_name: str, link_dm: str, user: tuple[User, bool]):
     try:
         with db.atomic():
-            Item.create(name=item_name, dm_link=dm_link, user=user[0])
+            Item.create(name=item_name, link_dm=link_dm, user=user[0])
     except IntegrityError as err:
         logger.error(err)
 
 
+def _set_is_parsed_true(link_dm: str):
+    current_item = ItemFullData.get(link_dm=link_dm)
+    current_item.is_parsed = True
+    current_item.save()
+
+
 def save_item_in_db(item: ItemsForDed):
+    link_dm = item['link_dm']
+    _set_is_parsed_true(link_dm)
     current_user = _save_user(item['profile_link'], item['trade_link'])
-    print(type(current_user))
-    print(current_user)
     _save_item(
         item['name'], item['link_dm'], current_user
     )
@@ -64,18 +70,8 @@ def save_only_items_in_db(items: list[ForGetProfileSchema]) -> bool:
         return False
 
 
-# def get_didovi_items() -> list[ForGetProfileSchema]:
-#     items = ItemFullData.select()
-#     for item in items:
-#         yield ForGetProfileSchema(
-#             link_dm=item.link_dm,
-#             name=item.name,
-#             float_value=item.float_value,
-#             paint_seed=item.paint_seed
-#         )
-
 def get_didovi_items() -> list[ItemsForDed]:
-    items = Item.select().where(Item.user is None)
+    items = ItemFullData.select().where(ItemFullData.is_parsed == False)
     rez = []
     for item in items:
         rez.append(ItemsForDed(
@@ -89,5 +85,6 @@ def get_didovi_items() -> list[ItemsForDed]:
 
 #
 # if __name__ == '__main__':
-#     x = get_didovi_items()
-#     print(x)
+#     s = get_didovi_items()
+#     for i in s:
+#         print(i)

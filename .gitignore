@@ -22,7 +22,8 @@ app.db
 database/json_files/save_data.py
 csgo.log
 csgofloat/__pycache__/works_fs.cpython-310.pyc
-
+app.db-shm
+app.db-wal
 
 
 

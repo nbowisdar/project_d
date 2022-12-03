@@ -24,3 +24,4 @@ class ForGetProfileSchema(TypedDict):
     paint_seed: int
 
 
+
