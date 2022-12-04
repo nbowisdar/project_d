@@ -32,11 +32,6 @@ class CSGOfloatApi(BaseClass):
         self.send_text_by_elem('//input[@formcontrolname="max"]', float_value)
         time.sleep(2 * random.uniform(.2, .58))
 
-        # fix round "float_value" if exists drag settings for float_value
-        if self.xpath_exists('//nouislider'):
-            self.send_text_by_elem('//input[@formcontrolname="max"]', float_value)
-            time.sleep(5 * random.uniform(.2, .58))
-
     def __paint_seed_send(self, paint_seed):
         self.send_text_by_elem('//input[@formcontrolname="paintSeed"]', paint_seed)
         time.sleep(5 * random.uniform(.2, .58))
@@ -49,6 +44,10 @@ class CSGOfloatApi(BaseClass):
 
         self.__send_float_value(item["float_value"])
 
+        # fix round "float_value" if exists drag settings for float_value
+        if self.xpath_exists('//nouislider'):
+            self.__send_float_value(item["float_value"])
+
         # name
         if item["name"] != "-":
             self.send_text_by_elem('//input[@formcontrolname="name"]', item["name"])
@@ -56,7 +55,6 @@ class CSGOfloatApi(BaseClass):
 
         # press button "Search"
         self.click_element('//mat-spinner-button/button')
-        input("search")
 
     def __get_url_account(self):
 
@@ -118,3 +116,8 @@ class CSGOfloatApi(BaseClass):
 
         else:
             return "NotFound", "NotFound"
+
+
+
+# project_d
+# pyinstaller -y -F -n csgo -i csgo.ico run.py --hidden-import csgofloat --path C:\Users\Username\PycharmProjects\project_d\venv\Lib\site-packages
