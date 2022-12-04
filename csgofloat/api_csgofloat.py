@@ -1,6 +1,7 @@
 import random
 import time
 
+from loguru import logger
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 
@@ -24,30 +25,29 @@ class CSGOfloatApi(BaseClass):
 
         self.DRIVER.get('https://csgofloat.com/db')
 
-    def __send_float_value(self, item):
-        self.send_text_by_elem('//input[@formcontrolname="min"]', item["float_value"])
-        time.sleep(5 * random.uniform(.2, .58))
+    def __send_float_value(self, float_value):
+        self.send_text_by_elem('//input[@formcontrolname="min"]', float_value)
+        time.sleep(2 * random.uniform(.2, .58))
 
-        self.send_text_by_elem('//input[@formcontrolname="max"]', item["float_value"])
+        self.send_text_by_elem('//input[@formcontrolname="max"]', float_value)
+        time.sleep(2 * random.uniform(.2, .58))
 
-    def __second_send_float_value(self, item):
         # fix round "float_value" if exists drag settings for float_value
         if self.xpath_exists('//nouislider'):
-            self.__send_float_value(item["float_value"])
+            self.send_text_by_elem('//input[@formcontrolname="max"]', float_value)
             time.sleep(5 * random.uniform(.2, .58))
 
-    def __paint_seed_send(self, item):
-        self.send_text_by_elem('//input[@formcontrolname="paintSeed"]', item["paint_seed"])
+    def __paint_seed_send(self, paint_seed):
+        self.send_text_by_elem('//input[@formcontrolname="paintSeed"]', paint_seed)
         time.sleep(5 * random.uniform(.2, .58))
 
     def __filling_filter(self, item):
         # clear
         self.click_element('//button[@mattooltip="Clear Search Parameters"]')
 
-        # uncaptcha
-        funcs = [self.__paint_seed_send, self.__send_float_value, self.__second_send_float_value]
-        for fun in random.sample(funcs, len(funcs)):
-            fun(item)
+        self.__paint_seed_send(item["paint_seed"])
+
+        self.__send_float_value(item["float_value"])
 
         # name
         if item["name"] != "-":
@@ -56,6 +56,7 @@ class CSGOfloatApi(BaseClass):
 
         # press button "Search"
         self.click_element('//mat-spinner-button/button')
+        input("search")
 
     def __get_url_account(self):
 
@@ -86,7 +87,6 @@ class CSGOfloatApi(BaseClass):
         if self.xpath_exists('//tbody'):
             # exists profile not market
             if self.xpath_exists('//*[contains(text(), "Knife")]/ancestor::tr//a[contains(@class, "playerAvatar")]'):
-
                 # open and switch new tab
                 self.DRIVER.tab_new(
                     self.DRIVER.find_element(By.XPATH,
