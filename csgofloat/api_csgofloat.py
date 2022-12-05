@@ -114,8 +114,7 @@ class CSGOfloatApi(BaseClass):
 
             return self.get_links(item, filter=False)
 
-        else:
-            return "NotFound", "NotFound"
+        return "NotFound", "NotFound"
 
 
 
