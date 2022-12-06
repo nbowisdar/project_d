@@ -1,8 +1,6 @@
 import random
 import time
 
-from loguru import logger
-from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 
 from .selenium_driver import BaseClass
@@ -56,13 +54,18 @@ class CSGOfloatApi(BaseClass):
         # press button "Search"
         self.click_element('//mat-spinner-button/button')
 
-    def __get_url_account(self):
+    def __get_url_account(self, already_exists=False):
 
-        self.xpath_exists('//div[@class="profile_small_header_texture"]/a')
+        if self.xpath_exists('//div[@class="profile_small_header_texture"]/a'):
+            return self.DRIVER.find_element(By.XPATH,
+                                            '//div[@class="profile_small_header_texture"]/a'
+                                            ).get_attribute("href")
+        else:
+            if not already_exists:
+                self.__get_url_account(already_exists=True)
+            else:
+                print("This idea not working for Steam, if after this massege not get link on the account")
 
-        return self.DRIVER.find_element(By.XPATH,
-                                        '//div[@class="profile_small_header_texture"]/a'
-                                        ).get_attribute("href")
 
     def __get_trade_link(self):
         self.xpath_exists('//body')
@@ -107,10 +110,7 @@ class CSGOfloatApi(BaseClass):
                 return url_account, trade_link
 
         elif self.xpath_exists('//*[contains(text(), "failed to verify recaptcha - 116")]'):
-
-            time.sleep(5 * random.uniform(.2, .58))
-            self.DRIVER.refresh()
-            self.DRIVER.reconnect(5 * random.uniform(2, 5.8))
+            self.refrash_page()
 
             return self.get_links(item, filter=False)
 

@@ -10,6 +10,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from .works_fs import cyan_color
+
 
 class BaseClass:
 
@@ -63,3 +65,10 @@ class BaseClass:
 
         else:
             input(f"No found {xpath}")
+
+    def refrash_page(self):
+        """if you have "Not Found data" call this function"""
+        print(cyan_color("Please wait, execute uncuptcha script!"))
+        time.sleep(5 * random.uniform(.2, .58))
+        self.DRIVER.refresh()
+        self.DRIVER.reconnect(5 * random.uniform(2, 5.8))
