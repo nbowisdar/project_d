@@ -3,7 +3,7 @@ from peewee import Model, CharField, ForeignKeyField, IntegerField, FloatField, 
 
 
 class User(BaseModel):
-    #name = CharField()
+    # name = CharField()
     profile = CharField(unique=True)
     trade_link = CharField(null=True)
 
@@ -27,6 +27,7 @@ class ItemFullData(BaseModel):
 def create_table():
     with db.atomic():
         db.create_tables([User, Item, ItemFullData])
+
 
 if __name__ == '__main__':
     create_table()
