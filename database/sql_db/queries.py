@@ -20,7 +20,7 @@ def _save_user(profile_link: str, trade_link: str) -> User | None:
         logger.error(err)
 
 
-def _save_item(item_name: str, link_dm: str, user: tuple[User, bool]):
+def _save_item(*, item_name: str, link_dm: str, user: tuple[User, bool]):
     try:
         with db.atomic():
             Item.create(name=item_name, link_dm=link_dm, user=user[0])
@@ -39,7 +39,9 @@ def save_item_in_db(item: ItemsForDed):
     _set_is_parsed_true(link_dm)
     current_user = _save_user(item['profile_link'], item['trade_link'])
     _save_item(
-        item['name'], item['link_dm'], current_user
+        item_name=item['name'],
+        link_dm=item['link_dm'],
+        user=current_user
     )
 
 
