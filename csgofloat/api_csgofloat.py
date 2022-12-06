@@ -1,7 +1,6 @@
 import random
 import time
 
-import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 
 from .selenium_driver import BaseClass
@@ -14,8 +13,7 @@ class CSGOfloatApi(BaseClass):
 
         self.user_data_dir = user_data_dir
         self.DRIVER, self.act = self._driver(
-            user_data_dir=self.user_data_dir,
-            browser_executable_path=uc.find_chrome_executable()
+            user_data_dir=self.user_data_dir
         )
 
     def auth_csgofloat(self):
@@ -25,37 +23,49 @@ class CSGOfloatApi(BaseClass):
 
         self.DRIVER.get('https://csgofloat.com/db')
 
-    def __send_float_value(self, value):
-        self.send_text_by_elem('//input[@formcontrolname="min"]', value)
+    def __send_float_value(self, float_value):
+        self.send_text_by_elem('//input[@formcontrolname="min"]', float_value)
+        time.sleep(2 * random.uniform(.2, .58))
 
-        self.send_text_by_elem('//input[@formcontrolname="max"]', value)
+        self.send_text_by_elem('//input[@formcontrolname="max"]', float_value)
+        time.sleep(2 * random.uniform(.2, .58))
+
+    def __paint_seed_send(self, paint_seed):
+        self.send_text_by_elem('//input[@formcontrolname="paintSeed"]', paint_seed)
+        time.sleep(5 * random.uniform(.2, .58))
 
     def __filling_filter(self, item):
+        # clear
         self.click_element('//button[@mattooltip="Clear Search Parameters"]')
-        if item["name"] != "-":
-            self.send_text_by_elem('//input[@formcontrolname="name"]', item["name"])
-            # time.sleep(3 * random.uniform(.2, .58))
 
-        self.send_text_by_elem('//input[@formcontrolname="paintSeed"]', item["paint_seed"])
-        # time.sleep(3 * random.uniform(.2, .58))
+        self.__paint_seed_send(item["paint_seed"])
 
         self.__send_float_value(item["float_value"])
-        # time.sleep(2 * random.uniform(.2, .58))
 
         # fix round "float_value" if exists drag settings for float_value
         if self.xpath_exists('//nouislider'):
             self.__send_float_value(item["float_value"])
-            # time.sleep(2 * random.uniform(.2, .58))
 
+        # name
+        if item["name"] != "-":
+            self.send_text_by_elem('//input[@formcontrolname="name"]', item["name"])
+            time.sleep(2 * random.uniform(.2, .58))
+
+        # press button "Search"
         self.click_element('//mat-spinner-button/button')
 
-    def __get_url_account(self):
+    def __get_url_account(self, already_exists=False):
 
-        self.xpath_exists('//div[@class="profile_small_header_texture"]/a')
+        if self.xpath_exists('//div[@class="profile_small_header_texture"]/a'):
+            return self.DRIVER.find_element(By.XPATH,
+                                            '//div[@class="profile_small_header_texture"]/a'
+                                            ).get_attribute("href")
+        else:
+            if not already_exists:
+                self.__get_url_account(already_exists=True)
+            else:
+                print("This idea not working for Steam, if after this massege not get link on the account")
 
-        return self.DRIVER.find_element(By.XPATH,
-                                        '//div[@class="profile_small_header_texture"]/a'
-                                        ).get_attribute("href")
 
     def __get_trade_link(self):
         self.xpath_exists('//body')
@@ -69,16 +79,20 @@ class CSGOfloatApi(BaseClass):
                 By.XPATH, '//*[contains(@href, "/tradeoffer") and @target="_blank"]'
             ).get_attribute('href')
 
-    def get_links(self, item):
-        self.__filling_filter(item)
+    def get_links(self, item, filter=True):
+
+        if filter:
+            self.__filling_filter(item)
 
         # exists item in table
         if self.xpath_exists('//tbody'):
             # exists profile not market
-            if self.xpath_exists('//a[contains(@class, "playerAvatar")]', wait=2):
+            if self.xpath_exists('//*[contains(text(), "Knife")]/ancestor::tr//a[contains(@class, "playerAvatar")]'):
                 # open and switch new tab
                 self.DRIVER.tab_new(
-                    self.DRIVER.find_element(By.XPATH, '//a[contains(@class, "playerAvatar")]').get_attribute("href")
+                    self.DRIVER.find_element(By.XPATH,
+                                             '//*[contains(text(), "Knife")]/ancestor::tr//a[contains(@class, "playerAvatar")]').get_attribute(
+                        "href")
                 )
                 self.DRIVER.switch_to.window(self.DRIVER.window_handles[-1])
 
@@ -95,4 +109,14 @@ class CSGOfloatApi(BaseClass):
 
                 return url_account, trade_link
 
+        elif self.xpath_exists('//*[contains(text(), "failed to verify recaptcha - 116")]'):
+            self.refrash_page()
+
+            return self.get_links(item, filter=False)
+
         return "NotFound", "NotFound"
+
+
+
+# project_d
+# pyinstaller -y -F -n csgo -i csgo.ico run.py --hidden-import csgofloat --path C:\Users\Username\PycharmProjects\project_d\venv\Lib\site-packages

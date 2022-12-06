@@ -10,6 +10,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from .works_fs import cyan_color
+
 
 class BaseClass:
 
@@ -29,11 +31,10 @@ class BaseClass:
         options.add_argument("--disable-backgrounding-occluded-windows")
 
         with uc.Chrome(
-                options=options,
-                user_data_dir=user_data_dir,
-                browser_executable_path=browser_executable_path,
-                headless=headless
-
+            options=options,
+            user_data_dir=user_data_dir,
+            browser_executable_path=browser_executable_path,
+            headless=headless
         ) as self.DRIVER:
 
             self.DRIVER.maximize_window()
@@ -61,8 +62,13 @@ class BaseClass:
             research_xpath = self.DRIVER.find_element(By.XPATH, xpath)
             research_xpath.clear()
             research_xpath.send_keys(text_or_key)
-            time.sleep(2 * random.uniform(.2, .58))
-            research_xpath.send_keys(Keys.ENTER)
 
         else:
             input(f"No found {xpath}")
+
+    def refrash_page(self):
+        """if you have "Not Found data" call this function"""
+        print(cyan_color("Please wait, execute uncuptcha script!"))
+        time.sleep(5 * random.uniform(.2, .58))
+        self.DRIVER.refresh()
+        self.DRIVER.reconnect(5 * random.uniform(2, 5.8))
