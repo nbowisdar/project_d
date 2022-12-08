@@ -9,7 +9,7 @@ from loguru import logger
 def volodya_part():
     # create tables for db
     create_table()
-    items = get_items_up_to_300(7000)
+    items = get_items_up_to_300(price_up_to=7000, limit=10)
     only_new = check_new(items)
     items_with_float = get_float(only_new)
     logger.info(f'got new items - {len(items_with_float)}')
