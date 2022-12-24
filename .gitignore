@@ -8,7 +8,7 @@ data.json
 database/__pycache__/
 database/sql_db/__pycache__/
 database/sql_db/app.db
-test.py
+test_dir/test.py
 database/mongo_db/__pycache__/
 database/json_files/__pycache__/
 database/json_files/items_for_ded.json
@@ -24,6 +24,9 @@ csgo.log
 csgofloat/__pycache__/works_fs.cpython-310.pyc
 app.db-shm
 app.db-wal
+test_dir
+telegram/__pycache__/
+
 
 
 

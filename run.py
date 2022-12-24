@@ -2,7 +2,7 @@ from multiprocessing import freeze_support
 from loguru import logger
 from mains.main import volodya_part
 from mains.main2 import did_part
-
+from telegram import start_tg_bot
 from csgofloat import check_profile_exists
 
 
@@ -10,13 +10,11 @@ from csgofloat import check_profile_exists
 def main():
     # for work chrome through profile
     check_profile_exists()
-
+    # start telegram bot
+    start_tg_bot()
     # first part
-    try:
-        volodya_part()
-    except Exception as err:
-        logger.error(err)
-        logger.error('Volodya made a mistake')
+    volodya_part()
+
 
     # second part
     did_part()

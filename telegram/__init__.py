@@ -1,0 +1,1 @@
+from telegram.run import start_tg_bot

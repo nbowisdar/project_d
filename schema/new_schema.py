@@ -2,6 +2,11 @@ from typing import TypedDict
 from typing import NamedTuple
 
 
+class DataForMessage(NamedTuple):
+    item_name: str
+    trade_link: str
+
+
 class ForGetFloatSchema(NamedTuple):
     item_name: str
     link_dm: str

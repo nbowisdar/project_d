@@ -1,5 +1,5 @@
 from peewee import IntegrityError
-from schema.new_schema import ItemsForDed, ForGetFloatSchema, ForGetProfileSchema
+from schema.new_schema import ItemsForDed, ForGetFloatSchema, ForGetProfileSchema, DataForMessage
 
 from database.sql_db.setup import db
 from database.sql_db.tables import User, Item, ItemFullData
@@ -54,6 +54,33 @@ def check_new(items: list[ForGetFloatSchema]) -> list[ForGetFloatSchema]:
             continue
         new_items.append(item)
     return new_items
+
+
+# def get_old_items() -> list[ForGetFloatSchema]:
+#     return [ForGetFloatSchema(
+#         item_name=item.item_name,
+#         link_dm=item.link_dm,
+#         in_game=item.in_game
+#     ) for item in ItemFullData.select()]
+
+def _transform_item(item: Item) -> DataForMessage:
+    return DataForMessage(
+        item_name=item.item_name,
+        trade_link=item.user.trade_link
+    )
+
+
+def get_sold_items(new_items: list[ForGetFloatSchema]) -> list[DataForMessage]:
+    sold_items = []
+    new_link_dm = [item.link_dm for item in new_items]
+    old_items = ItemFullData.select()
+    for item in old_items:
+        # if we can't find - we drop in from db and add is return list
+        if item.link_dm not in new_link_dm:
+            good_item = Item.get().where(Item.link_dm == item.link_dm)
+            sold_items.append(_transform_item(good_item))
+            item.delete().where(ItemFullData.id == item)
+    return sold_items
 
 
 def save_only_items_in_db(items: list[ForGetProfileSchema]) -> bool:
