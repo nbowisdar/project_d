@@ -1,6 +1,7 @@
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 
 stop_btn = ReplyKeyboardMarkup(
-    keyboard=KeyboardButton(["Стоп"]),
+    keyboard=[[KeyboardButton(text="Стоп")]],
     resize_keyboard=True
+
 )

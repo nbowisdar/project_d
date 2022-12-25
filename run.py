@@ -8,10 +8,13 @@ from csgofloat import check_profile_exists
 
 @logger.catch
 def main():
+    #print(123)
     # for work chrome through profile
     check_profile_exists()
+    #print('profile checked')
     # start telegram bot
-    start_tg_bot()
+    #start_tg_bot()
+    #print("bot starterd")
     # first part
     volodya_part()
 

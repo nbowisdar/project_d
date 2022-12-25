@@ -49,7 +49,7 @@ async def pars_all(items: list[ForGetFloatSchema]) -> list[ForGetProfileSchema]:
     items_new = []
     for task in tasks:
         resp = await task
-        time.sleep(70)
+        #time.sleep(70)
         if resp:
             items_new.append(resp)
 
