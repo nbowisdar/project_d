@@ -77,8 +77,9 @@ def get_sold_items(new_items: list[ForGetFloatSchema]) -> list[DataForMessage]:
     for item in old_items:
         # if we can't find item - we drop it from db and add in return list
         if item.link_dm not in new_link_dm:
-            good_item = Item.get().where(Item.link_dm == item.link_dm)
-            sold_items.append(_transform_item(good_item))
+            good_item = Item.get_or_none(Item.link_dm == item.link_dm)#.where()
+            if good_item:
+                sold_items.append(_transform_item(good_item))
             item.delete().where(ItemFullData.id == item)
     return sold_items
 

@@ -9,7 +9,7 @@ from csgofloat import check_profile_exists
 @logger.catch
 def main():
     # for work chrome through profile
-    check_profile_exists()
+    #check_profile_exists()
 
     # run tg bot
     bot_proc = Process(target=start_tg_bot)
@@ -20,7 +20,7 @@ def main():
 
 
     # second part
-    did_part()
+    #did_part()
 
 
 if __name__ == '__main__':
