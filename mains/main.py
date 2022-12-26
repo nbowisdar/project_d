@@ -23,7 +23,3 @@ def volodya_part():
     save_only_items_in_db(items_with_float)
 
 
-# if __name__ == '__main__':
-#     volodya_part()
-#     s = get_didovi_items()
-#     print(len(s))

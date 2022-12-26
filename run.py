@@ -1,4 +1,4 @@
-from multiprocessing import freeze_support
+from multiprocessing import freeze_support, Process
 from loguru import logger
 from mains.main import volodya_part
 from mains.main2 import did_part
@@ -8,13 +8,13 @@ from csgofloat import check_profile_exists
 
 @logger.catch
 def main():
-    #print(123)
     # for work chrome through profile
     check_profile_exists()
-    #print('profile checked')
-    # start telegram bot
-    #start_tg_bot()
-    #print("bot starterd")
+
+    # run tg bot
+    bot_proc = Process(target=start_tg_bot)
+    bot_proc.start()
+    logger.info('Telegram bot start runing')
     # first part
     volodya_part()
 

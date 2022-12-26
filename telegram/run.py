@@ -15,3 +15,7 @@ async def start():
 
 def start_tg_bot():
     asyncio.run(start())
+
+
+if __name__ == '__main__':
+    start_tg_bot()
