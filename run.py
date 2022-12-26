@@ -1,3 +1,4 @@
+import time
 from multiprocessing import freeze_support, Process
 from loguru import logger
 from mains.main import volodya_part
@@ -7,20 +8,16 @@ from csgofloat import check_profile_exists
 
 
 @logger.catch
-def main():
+def main(iteration_counter: int):
     # for work chrome through profile
-    #check_profile_exists()
+    check_profile_exists()
 
-    # run tg bot
-    bot_proc = Process(target=start_tg_bot)
-    bot_proc.start()
-    logger.info('Telegram bot start runing')
     # first part
     volodya_part()
 
-
     # second part
-    #did_part()
+    did_part()
+    logger.info(f"Iteration finished successfully №-{iteration_counter}")
 
 
 if __name__ == '__main__':
@@ -37,7 +34,15 @@ if __name__ == '__main__':
             compression="zip"
         )
 
-        main()
+        # run tg bot
+        bot_proc = Process(target=start_tg_bot)
+        bot_proc.start()
+        logger.info('Telegram bot start runing')
+        while True:
+            count = 0
+            logger.info("Start new iteration")
+            main(count)
+            count += 1
 
     finally:
         input()

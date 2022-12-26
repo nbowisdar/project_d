@@ -14,7 +14,11 @@ def did_part():
         items = get_didovi_items()
         for item in items:
             item = write_item(bot, item)
-            save_item_in_db(item)
+            try:
+                save_item_in_db(item)
+            except Exception as err:
+                logger.error(err)
+                logger.error(f"wrong item {item}")
 
     finally:
         bot.DRIVER.quit()

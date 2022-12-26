@@ -26,6 +26,9 @@ def _save_item(*, item_name: str, link_dm: str, user: tuple[User, bool]):
             Item.create(name=item_name, link_dm=link_dm, user=user[0])
     except IntegrityError as err:
         logger.error(err)
+        logger.error(f"Wrong item:"
+                     f"name - {item_name}"
+                     f"link_dm - {link_dm}")
 
 
 def _set_is_parsed_true(link_dm: str):
@@ -56,16 +59,9 @@ def check_new(items: list[ForGetFloatSchema]) -> list[ForGetFloatSchema]:
     return new_items
 
 
-# def get_old_items() -> list[ForGetFloatSchema]:
-#     return [ForGetFloatSchema(
-#         item_name=item.item_name,
-#         link_dm=item.link_dm,
-#         in_game=item.in_game
-#     ) for item in ItemFullData.select()]
-
 def _transform_item(item: Item) -> DataForMessage:
     return DataForMessage(
-        item_name=item.item_name,
+        item_name=item.name,
         trade_link=item.user.trade_link
     )
 
@@ -80,7 +76,8 @@ def get_sold_items(new_items: list[ForGetFloatSchema]) -> list[DataForMessage]:
             good_item = Item.get_or_none(Item.link_dm == item.link_dm)#.where()
             if good_item:
                 sold_items.append(_transform_item(good_item))
-            item.delete().where(ItemFullData.id == item)
+            item.delete().where(ItemFullData.id == item).execute()
+    logger.info(f"Sold items - {len(sold_items)}")
     return sold_items
 
 

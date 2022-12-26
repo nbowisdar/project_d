@@ -1,9 +1,9 @@
+import asyncio
 from schema.new_schema import DataForMessage
+from telegram.run import bot
 
-all_messages = []
 
-
-def _build_sold_items(items: list[DataForMessage]) -> str:
+def create_message(items: list[DataForMessage]) -> str:
     msg = "Привет, эти предметы были проданы: \n"
     for item in items:
         msg += f"Название предмета: `{item.item_name}` \n"
@@ -11,8 +11,10 @@ def _build_sold_items(items: list[DataForMessage]) -> str:
     return msg
 
 
-def add_message(items: list[DataForMessage]):
-    all_messages.append(
-        _build_sold_items(items)
-    )
+async def _send_messages(msg: str):
+    await bot.send_message(286365412, msg, parse_mode="MARKDOWN")
+    await asyncio.sleep(30)
 
+
+def send_message(messages: str):
+    asyncio.run(_send_messages(messages))

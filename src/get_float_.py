@@ -38,7 +38,7 @@ async def get_float_one_item(item: ForGetFloatSchema) -> ForGetProfileSchema | N
                 return None
 
 
-async def pars_all(items: list[ForGetFloatSchema]) -> list[ForGetProfileSchema]:
+async def pars_all(items: list[ForGetFloatSchema], sec_sleap: int) -> list[ForGetProfileSchema]:
     tasks = []
     global all_items_amount
     all_items_amount = len(items)
@@ -49,18 +49,19 @@ async def pars_all(items: list[ForGetFloatSchema]) -> list[ForGetProfileSchema]:
     items_new = []
     for task in tasks:
         resp = await task
-        #time.sleep(70)
         if resp:
             items_new.append(resp)
+        if sec_sleap:
+            time.sleep(sec_sleap)
 
     logger.info('Have got float!')
     return items_new
 
 
-def get_float(items: list[ForGetFloatSchema]) -> list[ForGetProfileSchema]:
+def get_float(*, items: list[ForGetFloatSchema], sec_sleap=0) -> list[ForGetProfileSchema]:
     while True:
         try:
-            return asyncio.run(pars_all(items))
+            return asyncio.run(pars_all(items, sec_sleap))
         except Exception as err:
             logger.error(err)
             logger.info('continue')
