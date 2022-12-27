@@ -27,9 +27,9 @@ app.db-wal
 test_dir
 telegram/__pycache__/
 Profile
-test.py
+tests/test.py
 csgofloat/__pycache__/__init__.cpython-310.pyc
-
+test.py
 
 
 
