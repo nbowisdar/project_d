@@ -11,14 +11,16 @@ from telegram.messages import create_message, send_message
 def volodya_part():
     # create tables for db
     create_table()
-    items = get_items_up_to_300(price_up_to=7000, limit=50)
+    # max limit - 100
+    #  get items from Dmarket
+    items = get_items_up_to_300(price_up_to=7000, limit=30)
     # updated
     sold_items = get_sold_items(items)
     if sold_items:
         msg = create_message(sold_items)
         send_message(msg)
     only_new = check_new(items)
-    items_with_float = get_float(items=only_new, sec_sleap=0)
+    items_with_float = get_float(items=only_new, sec_sleep=0)
     logger.info(f'got new items - {len(items_with_float)}')
     save_only_items_in_db(items_with_float)
 

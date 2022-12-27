@@ -14,7 +14,8 @@ def extract_in_game_and_link_dm(items: list) -> list[ForGetFloatSchema]:
     rez = []
     for item in items:
         rez.append(ForGetFloatSchema(
-            item_name=item['extra']['name'],
+            item_name=item["title"],
+            # item_name=item['extra']['name'],
             link_dm=BASE_DM_ITEM_URL + item['extra']['linkId'],
             in_game=item['extra']['inspectInGame']
         ))
@@ -33,11 +34,8 @@ def get_one_page(url: str) -> dict:
 def get_items_up_to_300(*, price_up_to=30000, limit=100) -> list[ForGetFloatSchema]:
     rez = []
     price_from = 0
-    # while testing we parse only up to 90
-    # TODO change to 30000 when go to production
 
     while price_from < price_up_to:
-        #time.sleep(5)
         current_url = build_dm_url(price_from=price_from, limit=limit)
         data = get_one_page(current_url)
         items = data['objects']
