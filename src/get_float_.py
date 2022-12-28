@@ -43,7 +43,7 @@ async def pars_all(items: list[ForGetFloatSchema], sec_sleap: int) -> list[ForGe
     global all_items_amount
     all_items_amount = len(items)
     for item in items:
-        tasks.append(get_float_one_item(item))
+        tasks.append(asyncio.create_task(get_float_one_item(item)))
     logger.info('all tasks generated')
 
     items_new = []

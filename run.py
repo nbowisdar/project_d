@@ -9,13 +9,13 @@ from csgofloat import check_profile_exists
 @logger.catch
 def main(iteration_counter: int):
     # for work chrome through profile
-    check_profile_exists()
+    #check_profile_exists()
 
     # first part
     volodya_part()
     # time.sleep(100)
     # second part
-    did_part()
+    #did_part()
     logger.info(f"Iteration finished successfully №-{iteration_counter}")
 
 
@@ -42,6 +42,7 @@ if __name__ == '__main__':
             logger.info("Start new iteration")
             main(count)
             count += 1
+            break
 
     finally:
         input()
