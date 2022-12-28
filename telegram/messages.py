@@ -13,10 +13,10 @@ def create_message(items: list[DataForMessage]) -> str:
     return msg
 
 
-async def _send_messages(msg: str):
-    await bot.send_message(286365412, msg, parse_mode="MARKDOWN")
+async def _send_messages(msg: str, telegram_id: int):
+    await bot.send_message(telegram_id, msg, parse_mode="MARKDOWN")
     await asyncio.sleep(30)
 
 
-def send_message(messages: str):
-    asyncio.run(_send_messages(messages))
+def send_message(messages: str, telegram_id: int):
+    asyncio.run(_send_messages(messages, telegram_id))

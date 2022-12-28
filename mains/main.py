@@ -6,6 +6,7 @@ from src.get_items_dmarket import get_items_up_to_300
 from loguru import logger
 from telegram.messages import create_message, send_message
 
+TELEGRAM_ID = 681903123
 
 @logger.catch
 def volodya_part():
@@ -18,7 +19,7 @@ def volodya_part():
     sold_items = get_sold_items(items)
     if sold_items:
         msg = create_message(sold_items)
-        send_message(msg)
+        send_message(msg, TELEGRAM_ID)
     only_new = check_new(items)
     items_with_float = get_float(items=only_new, sec_sleep=0)
     logger.info(f'got new items - {len(items_with_float)}')
