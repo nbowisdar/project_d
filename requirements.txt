@@ -34,8 +34,12 @@ sortedcontainers==2.4.0
 trio==0.22.0
 trio-websocket==0.9.2
 typing_extensions==4.4.0
-undetected-chromedriver==3.1.7
+undetected-chromedriver~=3.1.7
 urllib3==1.26.12
 websockets==10.4
 wsproto==1.2.0
 yarl==1.8.1
+
+
+playwright-stealth~=1.0.5
+playwright~=1.29.0

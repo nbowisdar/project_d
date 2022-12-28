@@ -1,10 +1,13 @@
 import os
 import shutil
 
+from sys import platform
 from subprocess import call
-from colorama import init, deinit
 
 import undetected_chromedriver as uc
+
+from colorama import init, deinit
+
 from .works_fs import path_near_exefile, auto_create, warning_text, magenta_color, green_color
 
 
@@ -30,9 +33,20 @@ def delete_chrome_profile(new_path_profile):
 
 def copy_chrome_folder():
     """find and copy your default"""
-    absolute_path_profiles = os.environ['USERPROFILE'] + r"\AppData\Local\Google\Chrome\User Data"
+    home = os.environ['USERPROFILE']
+
+    if platform == "win32":
+        absolute_path_profiles = home + r"\AppData\Local\Google\Chrome\User Data"
+
+    elif platform == "linux" or platform == "linux2":
+        absolute_path_profiles = home + '/.config/google-chrome/default'
+
+    else:
+        raise Exception("You have another os(not Windows or Linux)")
+
     new_path_profile = path_near_exefile("Profile") / "User Data"
 
+    # copy folder with user's data
     shutil.copytree(absolute_path_profiles, new_path_profile)
 
     return delete_chrome_profile(new_path_profile)
