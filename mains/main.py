@@ -1,4 +1,3 @@
-from database.json_files.save_data import save_data
 from database.sql_db.queries import check_new, save_only_items_in_db, get_didovi_items, get_sold_items
 from database.sql_db.tables import create_table
 from src.get_float_ import get_float
