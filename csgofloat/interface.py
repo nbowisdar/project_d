@@ -33,13 +33,11 @@ def delete_chrome_profile(new_path_profile):
 
 def copy_chrome_folder():
     """find and copy your default"""
-    home = os.environ['USERPROFILE']
-
     if platform == "win32":
-        absolute_path_profiles = home + r"\AppData\Local\Google\Chrome\User Data"
+        absolute_path_profiles = os.environ['USERPROFILE'] + r"\AppData\Local\Google\Chrome\User Data"
 
     elif platform == "linux" or platform == "linux2":
-        absolute_path_profiles = home + '/.config/google-chrome/default'
+        absolute_path_profiles ='~/.config/google-chrome/default'
 
     else:
         raise Exception("You have another os(not Windows or Linux)")

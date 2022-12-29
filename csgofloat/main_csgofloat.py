@@ -7,10 +7,10 @@ from .api_csgofloat import CSGOfloatApi
 @logger.catch
 def auth():
 
-    with CSGOfloatApi(user_data_dir=path_near_exefile("Profile") / "User Data") as api:
-        api.auth_csgofloat()
+    api = CSGOfloatApi(user_data_dir=path_near_exefile("Profile") / "User Data")
+    api.auth_csgofloat()
 
-        return api
+    return api
 
 
 @logger.catch
