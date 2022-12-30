@@ -1,4 +1,4 @@
-TELEGRAM_ID = 681903123
+TELEGRAM_ID = [681903123, ]  # -> Сюда можно добавить другие id
 PRICE_UP_TO = 7000  # -> 70$
 # max limit - 100
 LIMIT = 30
