@@ -31,7 +31,7 @@ def get_one_page(url: str) -> dict:
 
 
 # grab all items from dm up to 300$
-def get_items_up_to_300(*, price_up_to=30000, limit=100) -> list[ForGetFloatSchema]:
+def get_items_up_to_300(price_up_to=30000, limit=100) -> list[ForGetFloatSchema]:
     rez = []
     price_from = 0
 

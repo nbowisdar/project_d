@@ -4,7 +4,7 @@ from telegram.run import bot
 
 
 def create_message(items: list[DataForMessage]) -> str:
-    msg = "Привет, эти предметы были проданы: \n"
+    msg = f"Привет, всего проданно предметов - {len(items)}\n"
     for item in items:
         if not item.trade_link:
             continue

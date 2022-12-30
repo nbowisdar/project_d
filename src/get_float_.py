@@ -58,10 +58,10 @@ async def pars_all(items: list[ForGetFloatSchema], sec_sleap: int) -> list[ForGe
     return items_new
 
 
-def get_float(*, items: list[ForGetFloatSchema], sec_sleep=0) -> list[ForGetProfileSchema]:
+def get_float(*, items: list[ForGetFloatSchema], delay=0) -> list[ForGetProfileSchema]:
     while True:
         try:
-            return asyncio.run(pars_all(items, sec_sleep))
+            return asyncio.run(pars_all(items, delay))
         except Exception as err:
             logger.error(err)
             logger.info('continue')
