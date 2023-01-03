@@ -17,7 +17,7 @@ def main(iteration_counter: int):
     volodya_part()
     # time.sleep(100)
     # second part
-    #did_part()
+    did_part()
     logger.info(f"Iteration finished successfully №-{iteration_counter}")
 
 
