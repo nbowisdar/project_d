@@ -39,7 +39,3 @@ urllib3==1.26.12
 websockets==10.4
 wsproto==1.2.0
 yarl==1.8.1
-
-
-playwright-stealth~=1.0.5
-playwright~=1.29.0
