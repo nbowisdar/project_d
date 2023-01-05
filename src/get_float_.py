@@ -1,13 +1,12 @@
 import asyncio
 import json
 import time
-
-from fake_useragent import UserAgent
+from src.fake_agents import FakeAgent
 import aiohttp
 from loguru import logger
 from schema.new_schema import ForGetProfileSchema, ForGetFloatSchema
 from src.urls import BASE_FLOAT_URL
-
+agent = FakeAgent()
 count = 0
 errors = 0
 all_items_amount = 0
@@ -19,7 +18,7 @@ async def get_float_one_item(item: ForGetFloatSchema) -> ForGetProfileSchema | N
     count += 1
     print(f'Loading... {count} / {all_items_amount} ')
     async with aiohttp.ClientSession() as session:
-        headers = {'User-Agent': UserAgent().random}
+        headers = {'User-Agent': agent.random()}
         url = BASE_FLOAT_URL+item.in_game
         async with session.get(url, headers=headers) as resp:
             try:

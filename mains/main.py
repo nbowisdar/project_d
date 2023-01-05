@@ -10,7 +10,7 @@ import multiprocessing as ml
 import time
 
 
-def get_items_and_check_sold(price_up_to: int, limit=100, timeout=0) -> list[ForGetFloatSchema]:
+def get_items_and_check_sold(*, price_up_to: int, limit=100, timeout=0) -> list[ForGetFloatSchema]:
     if timeout:
         time.sleep(timeout)
     print('checking sold items...')
@@ -29,7 +29,7 @@ def volodya_part():
     create_table()
 
     #  get items from Dmarket
-    items = get_items_and_check_sold(price_up_to=7000, limit=30)
+    items = get_items_and_check_sold(price_up_to=PRICE_UP_TO, limit=LIMIT, timeout=TIMEOUT)
     only_new = check_new(items)
     items_with_float = get_float(items=only_new, delay=DELAY)
     logger.info(f'got new items - {len(items_with_float)}')

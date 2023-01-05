@@ -1,13 +1,12 @@
 import time
 
 import requests
-from fake_useragent import UserAgent
+from src.fake_agents import FakeAgent
 from loguru import logger
 from src.urls import build_dm_url, BASE_DM_ITEM_URL
 from schema.new_schema import ForGetFloatSchema
 
-UserAgent().random
-
+agent = FakeAgent()
 
 def extract_in_game_and_link_dm(items: list) -> list[ForGetFloatSchema]:
     # for item in data['objects']:
@@ -24,7 +23,7 @@ def extract_in_game_and_link_dm(items: list) -> list[ForGetFloatSchema]:
 
 
 def get_one_page(url: str) -> dict:
-    headers = {'User-Agent': UserAgent().random}
+    headers = {'User-Agent': agent.random()}
     with requests.Session() as session:
         with session.get(url, headers=headers) as resp:
             return resp.json()
