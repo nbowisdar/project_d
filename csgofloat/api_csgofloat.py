@@ -148,4 +148,4 @@ class CSGOfloatApi(BaseClass):
 
 
 # project_d
-# pyinstaller -y -F -n csgo -i csgo.ico run.py --hidden-import csgofloat --path C:\Users\Username\PycharmProjects\project_d\venv\Lib\site-packages
+# pyinstaller -y -F -n csgo -i csgo.ico runer_tg.py --hidden-import csgofloat --path C:\Users\Username\PycharmProjects\project_d\venv\Lib\site-packages

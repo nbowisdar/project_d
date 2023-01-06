@@ -1,6 +1,6 @@
 import asyncio
 from schema.new_schema import DataForMessage
-from telegram.run import bot
+from telegram.runer_tg import bot
 
 
 def create_message(items: list[DataForMessage]) -> str:

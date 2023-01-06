@@ -1,10 +1,10 @@
 from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Text, Command
-from telegram.keyboards import stop_btn, main_kb
+# from telegram.keyboards import stop_btn, main_kb
 #from telegram.messages import all_messages, pulling_messages
 #from mains.main import all_messages
-import asyncio
+# import asyncio
 
 main_router = Router()
 #IS_WORKING = False

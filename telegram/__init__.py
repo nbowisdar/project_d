@@ -1,1 +1,1 @@
-from telegram.run import start_tg_bot
+from telegram.runer_tg import start_tg_bot
