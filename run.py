@@ -1,3 +1,4 @@
+import time
 from threading import Thread
 from multiprocessing import freeze_support
 from loguru import logger
@@ -6,7 +7,7 @@ from telegram import start_tg_bot
 from csgofloat import check_profile_exists
 from config import TELEGRAM_ID, PRICE_UP_TO, LIMIT, TIMEOUT
 
-from mains.main import volodya_part, get_items_and_check_sold
+from mains.main import volodya_part, get_items_and_check_sold, checking_sold_items
 from mains.main2 import did_part
 
 
@@ -39,7 +40,7 @@ if __name__ == '__main__':
 
         # run tg bot
         bot_proc = Thread(target=start_tg_bot)
-        pars_sold_proc = Thread(target=get_items_and_check_sold, args=(PRICE_UP_TO, LIMIT, TIMEOUT))
+        pars_sold_proc = Thread(target=checking_sold_items, args=(PRICE_UP_TO, LIMIT, TIMEOUT))
         bot_proc.start()
         pars_sold_proc.start()
         logger.info('Telegram bot start runing')
@@ -49,7 +50,7 @@ if __name__ == '__main__':
             logger.info("Start new iteration")
             main(count)
             count += 1
-            break
+            print("Well done, went through all items! Start new iteration...")
 
     finally:
         input()

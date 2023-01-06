@@ -5,6 +5,9 @@ from telegram.runer_tg import bot
 
 def create_message(items: list[DataForMessage]) -> str:
     msg = f"Привет, всего проданно предметов - {len(items)}\n"
+    if not items:
+        msg += "Нет ссылок на трейд :("
+        return msg
     for item in items:
         if not item.trade_link:
             continue

@@ -30,7 +30,7 @@ def get_one_page(url: str) -> dict:
 
 
 # grab all items from dm up to 300$
-def get_items_up_to_300(price_up_to=30000, limit=100) -> list[ForGetFloatSchema]:
+def get_items_up_to_300(price_up_to=30000, limit=100, show_msg=True) -> list[ForGetFloatSchema]:
     rez = []
     price_from = 0
 
@@ -44,5 +44,6 @@ def get_items_up_to_300(price_up_to=30000, limit=100) -> list[ForGetFloatSchema]
         print(f'Getting from dm... {price/(price_up_to / 100)} / 100%')
         price_from = price
 
-    logger.info(f'Got {len(rez)} new items from dm!')
+    if show_msg:
+        logger.info(f'Got {len(rez)} new items from dm!')
     return rez
