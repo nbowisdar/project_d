@@ -63,7 +63,7 @@ def get_float(*, items: list[ForGetFloatSchema], delay=0) -> list[ForGetProfileS
             return asyncio.run(pars_all(items, delay))
         except Exception as err:
             logger.error(err)
-            logger.info('continue')
+            print('Try again...')
 
 
 # if __name__ == '__main__':

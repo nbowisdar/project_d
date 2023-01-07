@@ -9,7 +9,7 @@ from telegram.messages import create_message, send_message
 import time
 
 
-def get_items_and_check_sold(price_up_to: int, limit=100, show_msg=True) -> list[ForGetFloatSchema]:
+def get_items_form_dm(price_up_to: int, limit=100, show_msg=True) -> list[ForGetFloatSchema]:
     items = get_items_up_to_300(price_up_to, limit, show_msg)
     return items
 
@@ -19,7 +19,7 @@ def checking_sold_items(price_up_to: int, limit=100, timeout=0):
         if timeout:
             time.sleep(timeout)
         print('checking sold items...')
-        items = get_items_and_check_sold(price_up_to, limit, show_msg=False)
+        items = get_items_form_dm(price_up_to, limit, show_msg=False)
         sold_items = get_sold_items(items)
         if sold_items:
             msg = create_message(sold_items)
@@ -32,22 +32,12 @@ def volodya_part():
     create_table()
 
     #  get items from Dmarket
-    items = get_items_and_check_sold(price_up_to=PRICE_UP_TO, limit=LIMIT)
+    items = get_items_form_dm(price_up_to=PRICE_UP_TO, limit=LIMIT)
     only_new = check_new(items)
+
     items_with_float = get_float(items=only_new, delay=DELAY)
     logger.info(f'got new items - {len(items_with_float)}')
     save_only_items_in_db(items_with_float)
-
-
-# def volodya_part_upgraded():
-#     main_proc = ml.Process(target=volodya_part)
-#     telegram_proc = ml.Process(target=get_items_and_check_sold, args=(PRICE_UP_TO, LIMIT, TIMEOUT))
-#     main_proc.start()
-#     main_proc.join()
-#     time.sleep(10)
-#     print("start telegram bot")
-#     telegram_proc.start()
-#     telegram_proc.join()
 
 
 if __name__ == '__main__':

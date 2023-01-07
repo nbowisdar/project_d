@@ -8,6 +8,7 @@ from schema.new_schema import ForGetFloatSchema
 
 agent = FakeAgent()
 
+
 def extract_in_game_and_link_dm(items: list) -> list[ForGetFloatSchema]:
     # for item in data['objects']:
     rez = []
@@ -36,7 +37,12 @@ def get_items_up_to_300(price_up_to=30000, limit=100, show_msg=True) -> list[For
 
     while price_from < price_up_to:
         current_url = build_dm_url(price_from=price_from, limit=limit)
-        data = get_one_page(current_url)
+        try:
+            data = get_one_page(current_url)
+        except RuntimeError:
+            logger.error("Server doesn't respond")
+            print("Try again...")
+            continue
         items = data['objects']
         rez.extend(extract_in_game_and_link_dm(items))
         price = int(items[-1]['price']['USD'])
@@ -47,3 +53,5 @@ def get_items_up_to_300(price_up_to=30000, limit=100, show_msg=True) -> list[For
     if show_msg:
         logger.info(f'Got {len(rez)} new items from dm!')
     return rez
+
+
