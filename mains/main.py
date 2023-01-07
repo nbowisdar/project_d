@@ -1,4 +1,4 @@
-from config import TELEGRAM_ID, PRICE_UP_TO, LIMIT, TIMEOUT, DELAY
+from config import TELEGRAM_ID, PRICE_UP_TO, LIMIT, TIMEOUT, DELAY, DELAY_SECOND
 from database.sql_db.queries import check_new, save_only_items_in_db, get_didovi_items, get_sold_items
 from database.sql_db.tables import create_table
 from schema.new_schema import ForGetFloatSchema
@@ -10,7 +10,7 @@ import time
 
 
 def get_items_form_dm(price_up_to: int, limit=100, show_msg=True) -> list[ForGetFloatSchema]:
-    items = get_items_up_to_300(price_up_to, limit, show_msg)
+    items = get_items_up_to_300(price_up_to, limit, show_msg, DELAY_SECOND)
     return items
 
 
@@ -34,13 +34,16 @@ def volodya_part():
     #  get items from Dmarket
     items = get_items_form_dm(price_up_to=PRICE_UP_TO, limit=LIMIT)
     only_new = check_new(items)
-
     items_with_float = get_float(items=only_new, delay=DELAY)
     logger.info(f'got new items - {len(items_with_float)}')
     save_only_items_in_db(items_with_float)
 
 
 if __name__ == '__main__':
-    pass
-    # volodya_part()
+    #while True:
+    try:
+        volodya_part()
+    except RuntimeError:
+        print('123')
+        #time.sleep(3)
     # volodya_part_upgraded()
