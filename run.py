@@ -14,13 +14,13 @@ from mains.main2 import did_part
 @logger.catch
 def main(iteration_counter: int):
     # for work chrome through profile
-    # check_profile_exists()
+    check_profile_exists()
 
     # first part
     volodya_part()
 
     # second part
-    # did_part()
+    did_part()
     logger.info(f"Iteration finished successfully №-{iteration_counter}")
 
 
@@ -50,8 +50,8 @@ if __name__ == '__main__':
             logger.info("Start new iteration")
             main(count)
             count += 1
-            time.sleep(50)
             print("Well done, went through all items! Start new iteration...")
+            # time.sleep(50)
 
     finally:
         input()

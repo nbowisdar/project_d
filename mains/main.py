@@ -41,5 +41,6 @@ def volodya_part():
 
 
 if __name__ == '__main__':
-    while True:
-        volodya_part()
+    pass
+    # volodya_part()
+    # volodya_part_upgraded()

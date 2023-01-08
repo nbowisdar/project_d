@@ -31,13 +31,15 @@ def get_one_page(url: str) -> dict:
 
 
 # grab all items from dm up to 300$
-def get_items_up_to_300(price_up_to=30000, limit=100, show_msg=True) -> list[ForGetFloatSchema]:
+def get_items_up_to_300(price_up_to=30000, limit=100, show_msg=True, delay=0) -> list[ForGetFloatSchema]:
     rez = []
     price_from = 0
 
     while price_from < price_up_to:
         current_url = build_dm_url(price_from=price_from, limit=limit)
         try:
+            if delay:
+                time.sleep(delay)
             data = get_one_page(current_url)
         except RuntimeError:
             logger.error("Server doesn't respond")
