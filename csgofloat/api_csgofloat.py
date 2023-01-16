@@ -1,7 +1,6 @@
 import random
 import time
 
-from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 
 from .selenium_driver import BaseClass
@@ -10,12 +9,16 @@ from .selenium_driver import BaseClass
 class CSGOfloatApi(BaseClass):
 
     def __init__(self, user_data_dir):
-        super(CSGOfloatApi, self).__init__()
+        super(__class__, self).__init__()
 
         self.user_data_dir = user_data_dir
-        self.DRIVER, self.act = self._driver(
-            user_data_dir=self.user_data_dir
-        )
+
+    def __enter__(self):
+        self.DRIVER = self._driver(user_data_dir=self.user_data_dir)
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.DRIVER.quit()
 
     def auth_csgofloat(self):
         self.DRIVER.get('https://csgofloat.com/')
