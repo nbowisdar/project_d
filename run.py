@@ -3,15 +3,17 @@ from threading import Thread
 from multiprocessing import freeze_support
 from loguru import logger
 
+from database.sql_db.tables import create_table
 from telegram import start_tg_bot
 from csgofloat import check_profile_exists
 from config import TELEGRAM_ID, PRICE_UP_TO, LIMIT, TIMEOUT
 
 from mains.main import volodya_part, get_items_form_dm, checking_sold_items
 from mains.main2 import did_part
+from telegram.messages import send_messages
 
 
-@logger.catch
+#@logger.catch
 def main(iteration_counter: int):
     # for work chrome through profile
     check_profile_exists()
@@ -26,10 +28,11 @@ def main(iteration_counter: int):
 
 if __name__ == '__main__':
     freeze_support()
+    create_table()
+    send_messages("Бот запущен!", TELEGRAM_ID)
 
     # need for freeze program
     try:
-
         logger.add(
             "csgo.log",
             format="{time} {level} {message}",
@@ -43,15 +46,13 @@ if __name__ == '__main__':
         pars_sold_proc = Thread(target=checking_sold_items, args=(PRICE_UP_TO, LIMIT, TIMEOUT))
         bot_proc.start()
         pars_sold_proc.start()
-        logger.info('Telegram bot start runing')
-
+        #logger.info('Telegram bot start runing')
+        count = 0
         while True:
-            count = 0
-            logger.info("Start new iteration")
+            #logger.info("Start new iteration")
             main(count)
             count += 1
-            print("Well done, went through all items! Start new iteration...")
-            # time.sleep(50)
+            time.sleep(10)
 
     finally:
         input()
