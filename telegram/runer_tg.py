@@ -1,20 +1,16 @@
-from telegram.handlers import main_router
-import asyncio
-from aiogram import Bot, Dispatcher
+from config import TOKEN
+import telebot
 
-TOKEN = "5699483594:AAFFwC758bmMioThvKXgtLjPTaOHlx1xwlI"
-
-bot = Bot(token=TOKEN)
-dp = Dispatcher()
+bot = telebot.TeleBot(TOKEN)
 
 
-async def start():
-    dp.include_router(main_router)
-    await dp.start_polling(bot)
+@bot.message_handler(commands=['help', 'start'])
+def send_welcome(message):
+    bot.reply_to(message, "Привет.")
 
 
 def start_tg_bot():
-    asyncio.run(start())
+    bot.infinity_polling()
 
 
 if __name__ == '__main__':

@@ -41,19 +41,21 @@ def get_items_up_to_300(price_up_to=30000, limit=100, show_msg=True, delay=0) ->
             if delay:
                 time.sleep(delay)
             data = get_one_page(current_url)
+            # here can be an error
+            items = data['objects']
+            rez.extend(extract_in_game_and_link_dm(items))
+            price = int(items[-1]['price']['USD'])
+
+            # print(f'Getting from dm... {price / (price_up_to / 100)} / 100%')
+            price_from = price
         except RuntimeError:
             logger.error("Server doesn't respond")
-            print("Try again...")
+            print("Sleep for 30 sec and try again...")
             continue
-        items = data['objects']
-        rez.extend(extract_in_game_and_link_dm(items))
-        price = int(items[-1]['price']['USD'])
 
-        print(f'Getting from dm... {price/(price_up_to / 100)} / 100%')
-        price_from = price
 
-    if show_msg:
-        logger.info(f'Got {len(rez)} new items from dm!')
+    #if show_msg:
+        #logger.info(f'Got {len(rez)} new items from dm!')
     return rez
 
 
