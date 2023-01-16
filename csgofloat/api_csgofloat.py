@@ -88,7 +88,6 @@ class CSGOfloatApi(BaseClass):
         self.click_element('//mat-spinner-button/button')
 
     def __get_url_account(self, already_exists=False):
-
         if self.xpath_exists('//div[@class="profile_small_header_texture"]/a'):
             return self.DRIVER.find_element(By.XPATH,
                                             '//div[@class="profile_small_header_texture"]/a'
@@ -112,7 +111,6 @@ class CSGOfloatApi(BaseClass):
             ).get_attribute('href')
 
     def get_links(self, item, filter=True):
-
         if filter:
             self.__filling_filter(item)
 

@@ -8,22 +8,17 @@ from database.sql_db.queries import save_item_in_db, get_didovi_items
 def did_part():
     # check auth
     bot = auth()
+    input("lol")
+    items = get_didovi_items()
+    for item in items:
+        item = write_item(bot, item)
 
-    try:
+        try:
+            save_item_in_db(item)
 
-        items = get_didovi_items()
-        for item in items:
-            item = write_item(bot, item)
-
-            try:
-                save_item_in_db(item)
-
-            except Exception as err:
-                logger.error(err)
-                logger.error(f"wrong item {item}")
-
-    finally:
-        bot.DRIVER.quit()
+        except Exception as err:
+            logger.error(err)
+            logger.error(f"wrong item {item}")
 
 
 if __name__ == '__main__':
