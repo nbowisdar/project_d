@@ -43,6 +43,7 @@ async def auth_steam(browser, link_verification_steam):
     # refrash page
     await page_verif_steam.reload()
 
+    ############## TODO use await page.focus(selector)
     # click sign in
     await page_verif_steam.get_by_role("button", name="Sign In").click()
 
