@@ -30,6 +30,7 @@ class CSGOfloatApi(BaseClass):
         self.__auth_steam()
 
         self.DRIVER.get('https://csgofloat.com/db')
+        self.DRIVER.reconnect(5 * random.uniform(2, 5.8))
 
     def __auth_steam(self):
         if self.click_element('//img[@src="assets/login-steam.png"]', 1):
@@ -112,7 +113,6 @@ class CSGOfloatApi(BaseClass):
 
     def get_links(self, item, filter=True):
         if filter:
-            self.DRIVER.reconnect(5 * random.uniform(2, 5.8))
             self.__filling_filter(item)
 
         # exists item in table
