@@ -112,6 +112,7 @@ class CSGOfloatApi(BaseClass):
 
     def get_links(self, item, filter=True):
         if filter:
+            self.DRIVER.reconnect(5 * random.uniform(2, 5.8))
             self.__filling_filter(item)
 
         # exists item in table

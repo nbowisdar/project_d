@@ -16,13 +16,13 @@ from telegram.messages import send_messages
 #@logger.catch
 def main(iteration_counter: int):
     # for work chrome through profile
-    #check_profile_exists()
+    check_profile_exists()
 
     # first part
     volodya_part()
 
     # second part
-    #did_part()
+    did_part()
     logger.info(f"Iteration finished successfully №-{iteration_counter}")
 
 
