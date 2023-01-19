@@ -42,6 +42,8 @@ def get_items_up_to_300(price_up_to=30000, limit=100, show_msg=True, delay=0) ->
                 time.sleep(delay)
             data = get_one_page(current_url)
             # here can be an error
+            if 'objects' not in data.keys():
+                raise RuntimeError
             items = data['objects']
             rez.extend(extract_in_game_and_link_dm(items))
             price = int(items[-1]['price']['USD'])
