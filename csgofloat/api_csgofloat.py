@@ -90,9 +90,10 @@ class CSGOfloatApi(BaseClass):
 
     def __get_url_account(self, already_exists=False):
         if self.xpath_exists('//div[@class="profile_small_header_texture"]/a'):
-            return self.DRIVER.find_element(By.XPATH,
+            steam_profile_link = self.DRIVER.find_element(By.XPATH,
                                             '//div[@class="profile_small_header_texture"]/a'
                                             ).get_attribute("href")
+            return steam_profile_link
         else:
             if not already_exists:
                 self.__get_url_account(already_exists=True)
@@ -103,13 +104,19 @@ class CSGOfloatApi(BaseClass):
         self.xpath_exists('//body')
 
         # click "Подробнее" on the steam account
-        self.click_element('//div[contains(@class, "profile_summary_footer")]', wait=2)
+        self.click_element('//div[contains(@class, "profile_summary_footer")]', wait=1)
 
         # find trade in title steam profile
         if self.xpath_exists('//*[contains(@href, "/tradeoffer") and @target="_blank"]', wait=3):
-            return self.DRIVER.find_element(
+            # find trade_link on the Steam profile
+            trade_link = self.DRIVER.find_element(
                 By.XPATH, '//*[contains(@href, "/tradeoffer") and @target="_blank"]'
             ).get_attribute('href')
+        else:
+            # not found
+            trade_link = "NotFound"
+
+        return trade_link
 
     def get_links(self, item, filter=True):
         if filter:
@@ -128,7 +135,7 @@ class CSGOfloatApi(BaseClass):
                 self.DRIVER.switch_to.window(self.DRIVER.window_handles[-1])
 
                 # get url profile
-                url_account = self.__get_url_account()
+                url_account = self.__get_url_account().replace(" ", "")
 
                 # to go main page profile
                 self.DRIVER.get(url_account)
@@ -142,7 +149,6 @@ class CSGOfloatApi(BaseClass):
 
         elif self.xpath_exists('//*[contains(text(), "failed to verify recaptcha - 116")]'):
             self.refrash_page()
-
             return self.get_links(item, filter=False)
 
         return "NotFound", "NotFound"
