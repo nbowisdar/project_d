@@ -31,12 +31,13 @@ def get_one_page(url: str) -> dict:
 
 
 # grab all items from dm up to 300$
-def get_items_up_to_300(price_up_to=30000, limit=100, show_msg=True, delay=0) -> list[ForGetFloatSchema]:
+def get_items_form_dm(*, price_up_to=30000, limit=100, delay=0) -> list[ForGetFloatSchema]:
     rez = []
     price_from = 0
 
     while price_from < price_up_to:
         current_url = build_dm_url(price_from=price_from, limit=limit)
+        print("Проверка проданных предметов...")
         try:
             if delay:
                 time.sleep(delay)
@@ -50,14 +51,11 @@ def get_items_up_to_300(price_up_to=30000, limit=100, show_msg=True, delay=0) ->
 
             # print(f'Getting from dm... {price / (price_up_to / 100)} / 100%')
             price_from = price
+            print("ок")
         except RuntimeError:
-            logger.error("Server doesn't respond")
-            print("Sleep for 30 sec and try again...")
-            continue
-
-
-    #if show_msg:
-        #logger.info(f'Got {len(rez)} new items from dm!')
+            # logger.error("Server doesn't respond")
+            print("Не получилось проверка")
+            break
     return rez
 
 

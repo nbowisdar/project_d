@@ -1,10 +1,12 @@
 from database.sql_db.setup import db, BaseModel
 from peewee import Model, CharField, ForeignKeyField, IntegerField, FloatField, BooleanField
+import os
+int(os.environ.get("PORT", 5000))
 
 
 class User(BaseModel):
     # name = CharField()
-    profile = CharField(unique=True)
+    profile = CharField(unique=True, null=True)
     trade_link = CharField(null=True)
 
 

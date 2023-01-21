@@ -16,13 +16,13 @@ from telegram.messages import send_messages
 #@logger.catch
 def main(iteration_counter: int):
     # for work chrome through profile
-    check_profile_exists()
+    #check_profile_exists()
 
     # first part
     volodya_part()
 
     # second part
-    did_part()
+    #did_part()
     logger.info(f"Iteration finished successfully №-{iteration_counter}")
 
 
@@ -46,10 +46,8 @@ if __name__ == '__main__':
         pars_sold_proc = Thread(target=checking_sold_items, args=(PRICE_UP_TO, LIMIT, TIMEOUT))
         bot_proc.start()
         pars_sold_proc.start()
-        #logger.info('Telegram bot start runing')
         count = 0
         while True:
-            #logger.info("Start new iteration")
             main(count)
             count += 1
             time.sleep(10)

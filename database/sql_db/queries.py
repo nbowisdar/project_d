@@ -11,24 +11,15 @@ def get_all() -> list[Item]:
 
 
 def _save_user(profile_link: str, trade_link: str) -> User | None:
-    try:
-        if profile_link:
-            with db.atomic():
-                return User.get_or_create(profile=profile_link, trade_link=trade_link)
-        return None
-    except IntegrityError as err:
-        logger.error(err)
+    if profile_link:
+        user = User.get_or_create(profile=profile_link)[0]
+        user.trade_link = trade_link
+        return user.save()
+    return None
 
 
-def _save_item(*, item_name: str, link_dm: str, user: tuple[User, bool]):
-    try:
-        with db.atomic():
-            Item.create(name=item_name, link_dm=link_dm, user=user[0])
-    except IntegrityError as err:
-        logger.error(err)
-        logger.error(f"Wrong item:"
-                     f"name - {item_name}"
-                     f"link_dm - {link_dm}")
+def _save_item(*, item_name: str, link_dm: str, user: User):
+    Item.create(name=item_name, link_dm=link_dm, user=user)
 
 
 def _set_is_parsed_true(link_dm: str):
@@ -108,10 +99,3 @@ def get_didovi_items() -> list[ItemsForDed]:
             paint_seed=item.paint_seed
         ))
     return rez
-
-
-#
-# if __name__ == '__main__':
-#     s = get_didovi_items()
-#     for i in s:
-#         print(i)

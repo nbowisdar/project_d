@@ -3,15 +3,10 @@ from database.sql_db.queries import check_new, save_only_items_in_db, get_didovi
 from database.sql_db.tables import create_table
 from schema.new_schema import ForGetFloatSchema
 from src.get_float_ import get_float
-from src.get_items_dmarket import get_items_up_to_300
+from src.get_items_dmarket import get_items_form_dm
 from loguru import logger
 from telegram.messages import create_message, send_messages
 import time
-
-
-def get_items_form_dm(price_up_to: int, limit=100, show_msg=True) -> list[ForGetFloatSchema]:
-    items = get_items_up_to_300(price_up_to, limit, show_msg, DELAY)
-    return items
 
 
 def checking_sold_items(price_up_to: int, limit=100, timeout=0):
@@ -19,7 +14,8 @@ def checking_sold_items(price_up_to: int, limit=100, timeout=0):
         if timeout:
             time.sleep(timeout)
         print('checking sold items...')
-        items = get_items_form_dm(price_up_to, limit, show_msg=False)
+        items = get_items_form_dm(price_up_to=price_up_to,
+                                  limit=limit, delay=timeout)
         sold_items = get_sold_items(items)
         if sold_items:
             msg = create_message(sold_items)
