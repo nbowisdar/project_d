@@ -12,6 +12,8 @@ from csgofloat import CSGOfloatApi
 
 @logger.catch
 def did_part():
+    path_to_profile = None
+
     if platform == "win32":
         path_to_profile = path_near_exefile("Profile") / "User Data"
     elif platform == "linux" or platform == "linux2":
