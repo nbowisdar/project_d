@@ -10,7 +10,9 @@ import time
 
 
 def checking_sold_items(price_up_to: int, limit=100, timeout=0):
+    time.sleep(15)
     while True:
+
         if timeout:
             time.sleep(timeout)
         print('checking sold items...')
@@ -24,7 +26,6 @@ def checking_sold_items(price_up_to: int, limit=100, timeout=0):
 
 #@logger.catch
 def volodya_part():
-
     #  get items from Dmarket
     items = get_items_form_dm(price_up_to=PRICE_UP_TO, limit=LIMIT)
     only_new = check_new(items)

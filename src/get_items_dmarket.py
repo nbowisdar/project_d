@@ -37,7 +37,6 @@ def get_items_form_dm(*, price_up_to=30000, limit=100, delay=0) -> list[ForGetFl
 
     while price_from < price_up_to:
         current_url = build_dm_url(price_from=price_from, limit=limit)
-        print("Проверка проданных предметов...")
         try:
             if delay:
                 time.sleep(delay)
@@ -51,10 +50,8 @@ def get_items_form_dm(*, price_up_to=30000, limit=100, delay=0) -> list[ForGetFl
 
             # print(f'Getting from dm... {price / (price_up_to / 100)} / 100%')
             price_from = price
-            print("ок")
         except RuntimeError:
             # logger.error("Server doesn't respond")
-            print("Не получилось проверка")
             break
     return rez
 

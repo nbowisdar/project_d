@@ -13,7 +13,7 @@ def create_message(items: list[DataForMessage]) -> str:
         if not item.trade_link:
             continue
         msg += f"Название предмета: `{item.item_name}` \n"
-        msg += f"Ссылка на трейд: `{item.trade_link}` \n"
+        msg += f"Ссылка на трейд: `{item.trade_link}\n` \n"
     return msg
 
 

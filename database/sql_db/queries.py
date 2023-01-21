@@ -19,7 +19,11 @@ def _save_user(profile_link: str, trade_link: str) -> User | None:
 
 
 def _save_item(*, item_name: str, link_dm: str, user: User):
-    Item.create(name=item_name, link_dm=link_dm, user=user)
+    x = Item.create(name=item_name, link_dm=link_dm, user=user)
+
+    x = Item.get(name='hello')
+    x.name = 'Ded'
+    x.save()
 
 
 def _set_is_parsed_true(link_dm: str):
@@ -64,10 +68,10 @@ def get_sold_items(new_items: list[ForGetFloatSchema]) -> list[DataForMessage]:
     for item in old_items:
         # if we can't find item - we drop it from db and add in return list
         if item.link_dm not in new_link_dm:
-            good_item = Item.get_or_none(Item.link_dm == item.link_dm)#.where()
+            good_item = Item.get_or_none(Item.link_dm == item.link_dm) #.where()
             if good_item:
                 sold_items.append(_transform_item(good_item))
-            item.delete().where(ItemFullData.id == item).execute()
+            # item.delete().where(ItemFullData.id == item).execute()
     logger.info(f"Sold items - {len(sold_items)}")
     return sold_items
 
