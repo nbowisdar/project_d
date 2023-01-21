@@ -97,26 +97,21 @@ class CSGOfloatApi(BaseClass):
         else:
             if not already_exists:
                 self.__get_url_account(already_exists=True)
-            else:
-                print("This idea not working for Steam, if after this massege not get link on the account")
 
     def __get_trade_link(self):
         self.xpath_exists('//body')
+        if self.xpath_exists('//div[@class="profile_private_info"]', wait=1):
+            # click "Подробнее" on the steam account
+            self.click_element('//div[contains(@class, "profile_summary_footer")]', wait=1)
 
-        # click "Подробнее" on the steam account
-        self.click_element('//div[contains(@class, "profile_summary_footer")]', wait=1)
+            # find trade in title steam profile
+            if self.xpath_exists('//*[contains(@href, "/tradeoffer") and @target="_blank"]', wait=3):
+                # find trade_link on the Steam profile
+                trade_link = self.DRIVER.find_element(
+                    By.XPATH, '//*[contains(@href, "/tradeoffer") and @target="_blank"]'
+                ).get_attribute('href')
 
-        # find trade in title steam profile
-        if self.xpath_exists('//*[contains(@href, "/tradeoffer") and @target="_blank"]', wait=3):
-            # find trade_link on the Steam profile
-            trade_link = self.DRIVER.find_element(
-                By.XPATH, '//*[contains(@href, "/tradeoffer") and @target="_blank"]'
-            ).get_attribute('href')
-        else:
-            # not found
-            trade_link = "NotFound"
-
-        return trade_link
+                return trade_link
 
     def get_links(self, item, filter=True):
         if filter:
@@ -128,14 +123,14 @@ class CSGOfloatApi(BaseClass):
             if self.xpath_exists('//*[contains(text(), "Knife")]/ancestor::tr//a[contains(@class, "playerAvatar")]'):
                 # open and switch new tab
                 self.DRIVER.tab_new(
-                    self.DRIVER.find_element(By.XPATH,
-                                             '//*[contains(text(), "Knife")]/ancestor::tr//a[contains(@class, "playerAvatar")]').get_attribute(
-                        "href")
-                )
+                    self.DRIVER.find_element(
+                        by=By.XPATH,
+                        value='//*[contains(text(), "Knife")]/ancestor::tr//a[contains(@class, "playerAvatar")]'
+                    ).get_attribute("href"))
                 self.DRIVER.switch_to.window(self.DRIVER.window_handles[-1])
 
                 # get url profile
-                url_account = self.__get_url_account().replace(" ", "")
+                url_account = self.__get_url_account()
 
                 # to go main page profile
                 self.DRIVER.get(url_account)
@@ -150,10 +145,6 @@ class CSGOfloatApi(BaseClass):
         elif self.xpath_exists('//*[contains(text(), "failed to verify recaptcha - 116")]'):
             self.refrash_page()
             return self.get_links(item, filter=False)
-
-        return "NotFound", "NotFound"
-
-
 
 # project_d
 # pyinstaller -y -F -n csgo -i csgo.ico runer_tg.py --hidden-import csgofloat --path C:\Users\Username\PycharmProjects\project_d\venv\Lib\site-packages

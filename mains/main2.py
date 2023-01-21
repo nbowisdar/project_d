@@ -1,3 +1,7 @@
+import undetected_chromedriver as uc
+
+from sys import platform
+
 from loguru import logger
 
 from database.sql_db.queries import save_item_in_db, get_didovi_items
@@ -8,8 +12,12 @@ from csgofloat import CSGOfloatApi
 
 @logger.catch
 def did_part():
+    if platform == "win32":
+        path_to_profile = path_near_exefile("Profile") / "User Data"
+    elif platform == "linux" or platform == "linux2":
+        path_to_profile = uc.find_chrome_executable()
     # check auth
-    with CSGOfloatApi(user_data_dir=path_near_exefile("Profile") / "User Data") as api:
+    with CSGOfloatApi(user_data_dir=path_to_profile) as api:
         api.auth_csgofloat()  # Log in the csgofloat via steam
         items = get_didovi_items()  # Vova's part
         for item in items:

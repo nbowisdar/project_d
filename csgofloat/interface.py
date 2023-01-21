@@ -32,22 +32,8 @@ def delete_chrome_profile(new_path_profile):
 
 def copy_chrome_folder():
     """find and copy your default"""
-    new_path_profile = ""
-
-    if platform == "win32":
-        absolute_path_profiles = os.environ['USERPROFILE'] + r"\AppData\Local\Google\Chrome\User Data"
-
-    elif platform == "linux" or platform == "linux2":
-        absolute_path_profiles = '~/.config/google-chrome/default'
-
-    else:
-        raise Exception("You have another os(not Windows or Linux)")
-
-    if platform == "win32":
-        new_path_profile = path_near_exefile("Profile") / "User Data"
-
-    elif platform == "linux" or platform == "linux2":
-        new_path_profile = path_near_exefile("Profile") / "default"
+    absolute_path_profiles = os.environ['USERPROFILE'] + r"\AppData\Local\Google\Chrome\User Data"
+    new_path_profile = path_near_exefile("Profile") / "User Data"
 
     # copy folder with user's data
     shutil.copytree(absolute_path_profiles, new_path_profile)
@@ -59,7 +45,7 @@ def check_profile_exists():
     list_profiles = os.listdir(auto_create(path_near_exefile("Profile"), "dir"))
 
     init()
-    if list_profiles:
+    if list_profiles or platform == "linux" or platform == "linux2":
         deinit()
         return
 
