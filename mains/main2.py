@@ -17,7 +17,7 @@ def did_part():
     if platform == "win32":
         path_to_profile = path_near_exefile("Profile") / "User Data"
     elif platform == "linux" or platform == "linux2":
-        path_to_profile = "/home/king/.config/google-chrome/Profile 2/"
+        path_to_profile = "/home/king/.config/google-chrome/"
 
     # check auth
     with CSGOfloatApi(user_data_dir=path_to_profile) as api:
