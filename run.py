@@ -16,18 +16,18 @@ from telegram.messages import send_messages
 @logger.catch
 def main(iteration_counter: int):
     # for work chrome through profile
-    check_profile_exists()
+    #check_profile_exists()
 
     # first part
     volodya_part()
 
     # second part
-    did_part()
+    #did_part()
     logger.info(f"Iteration finished successfully №-{iteration_counter}")
 
 
 if __name__ == '__main__':
-    freeze_support()
+    #freeze_support()
     create_table()
     send_messages("Бот запущен!", TELEGRAM_ID)
 
@@ -50,7 +50,7 @@ if __name__ == '__main__':
         while True:
             main(count)
             count += 1
-            time.sleep(10)
+            time.sleep(30)
 
     finally:
         input()
