@@ -1,6 +1,7 @@
 import random
 import time
 
+from selenium.common import InvalidArgumentException
 from selenium.webdriver.common.by import By
 
 from .selenium_driver import BaseClass
@@ -99,19 +100,19 @@ class CSGOfloatApi(BaseClass):
                 self.__get_url_account(already_exists=True)
 
     def __get_trade_link(self):
-        self.xpath_exists('//body')
-        if self.xpath_exists('//div[@class="profile_private_info"]', wait=1):
-            # click "Подробнее" on the steam account
-            self.click_element('//div[contains(@class, "profile_summary_footer")]', wait=1)
+        if self.xpath_exists('//body', wait=10):
+            if not self.xpath_exists('//div[@class="profile_private_info"]', wait=1):
+                # click "Подробнее" on the steam account
+                self.click_element('//div[contains(@class, "profile_summary_footer")]', wait=1)
 
-            # find trade in title steam profile
-            if self.xpath_exists('//*[contains(@href, "/tradeoffer") and @target="_blank"]', wait=3):
-                # find trade_link on the Steam profile
-                trade_link = self.DRIVER.find_element(
-                    By.XPATH, '//*[contains(@href, "/tradeoffer") and @target="_blank"]'
-                ).get_attribute('href')
+                # find trade in title steam profile
+                if self.xpath_exists('//*[contains(@href, "/tradeoffer") and @target="_blank"]', wait=3):
+                    # find trade_link on the Steam profile
+                    trade_link = self.DRIVER.find_element(
+                        By.XPATH, '//*[contains(@href, "/tradeoffer") and @target="_blank"]'
+                    ).get_attribute('href')
 
-                return trade_link
+                    return trade_link
 
     def get_links(self, item, filter=True):
         if filter:
@@ -134,7 +135,12 @@ class CSGOfloatApi(BaseClass):
 
                 # to go main page profile
                 self.DRIVER.get(url_account)
-                trade_link = self.__get_trade_link()
+                self.DRIVER.reconnect(2)
+
+                try:
+                    trade_link = self.__get_trade_link()
+                except InvalidArgumentException:
+                    trade_link = None
 
                 # close and switch tabs
                 self.DRIVER.close()

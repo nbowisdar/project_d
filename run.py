@@ -13,7 +13,7 @@ from mains.main2 import did_part
 from telegram.messages import send_messages
 
 
-#@logger.catch
+@logger.catch
 def main(iteration_counter: int):
     # for work chrome through profile
     check_profile_exists()
@@ -27,7 +27,7 @@ def main(iteration_counter: int):
 
 
 if __name__ == '__main__':
-    #freeze_support()
+    freeze_support()
     create_table()
     send_messages("Бот запущен!", TELEGRAM_ID)
 
