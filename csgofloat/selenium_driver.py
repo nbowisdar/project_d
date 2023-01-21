@@ -112,6 +112,6 @@ class BaseClass:
 
     def refrash_page(self):
         """if you have "Not Found data" call this function"""
-        time.sleep(5 * random.uniform(.2, .58))
+        time.sleep(random.uniform(.58, 1))
         self.DRIVER.refresh()
-        self.DRIVER.reconnect(5 * random.uniform(2, 5.8))
+        self.DRIVER.reconnect(random.uniform(2, 5.8))

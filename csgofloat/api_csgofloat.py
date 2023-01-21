@@ -128,6 +128,7 @@ class CSGOfloatApi(BaseClass):
                         by=By.XPATH,
                         value='//*[contains(text(), "Knife")]/ancestor::tr//a[contains(@class, "playerAvatar")]'
                     ).get_attribute("href"))
+                time.sleep(2)
                 self.DRIVER.switch_to.window(self.DRIVER.window_handles[-1])
 
                 # get url profile
@@ -135,12 +136,8 @@ class CSGOfloatApi(BaseClass):
 
                 # to go main page profile
                 self.DRIVER.get(url_account)
-                self.DRIVER.reconnect(2)
 
-                try:
-                    trade_link = self.__get_trade_link()
-                except InvalidArgumentException:
-                    trade_link = None
+                trade_link = self.__get_trade_link()
 
                 # close and switch tabs
                 self.DRIVER.close()
