@@ -10,20 +10,17 @@ import time
 
 
 def checking_sold_items(price_up_to: int, limit=100, timeout=0):
-    print('1')
     #time.sleep(15)
     while True:
         if timeout:
             time.sleep(timeout)
         print('checking sold items...')
-        items = get_items_form_dm(price_up_to=price_up_to,
-                                  limit=limit, delay=timeout)
+        items = get_items_form_dm(price_up_to=price_up_to, limit=limit)
         sold_items = get_sold_items(items)
+        print(f"Amount of new items -> {len(sold_items)}")
         if sold_items:
             msg = create_message(sold_items)
             send_messages(msg, TELEGRAM_ID)
-        else:
-            print('nothing')
 
 
 #@logger.catch

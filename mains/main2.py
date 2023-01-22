@@ -20,7 +20,7 @@ def did_part():
         path_to_profile = "/home/king/.config/google-chrome/"
 
     # check auth
-    with CSGOfloatApi(user_data_dir=path_to_profile) as api:
+    with CSGOfloatApi() as api:
         api.auth_csgofloat()  # Log in the csgofloat via steam
         items = get_didovi_items()  # Vova's part
         for item in items:
