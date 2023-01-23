@@ -38,6 +38,5 @@ if __name__ == '__main__':
     try:
         volodya_part()
     except RuntimeError:
-        print('123')
         #time.sleep(3)
     # volodya_part_upgraded()

@@ -70,9 +70,10 @@ def get_sold_items(new_items: list[ForGetFloatSchema]) -> list[DataForMessage]:
         if item.link_dm not in new_link_dm:
             good_item = Item.get_or_none(Item.link_dm == item.link_dm) #.where()
             if good_item:
-                sold_items.append(_transform_item(good_item))
+                if good_item.user:
+                    sold_items.append(_transform_item(good_item))
             # item.delete().where(ItemFullData.id == item).execute()
-    logger.info(f"Sold items - {len(sold_items)}")
+    # logger.info(f"Sold items - {len(sold_items)}")
     return sold_items
 
 
