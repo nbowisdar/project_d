@@ -33,8 +33,9 @@ def did_part():
             try:
                 save_item_in_db(item)  # Vova's part
             except Exception as err:
-                logger.error(err)
-                logger.error(f"wrong item {item}")
+                pass
+                #logger.error(err)
+                #logger.error(f"wrong item {item}")
 
 
 if __name__ == '__main__':
