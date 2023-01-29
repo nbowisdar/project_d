@@ -10,7 +10,7 @@ import time
 
 
 def checking_sold_items(price_up_to: int, limit=100, timeout=0):
-    #time.sleep(15)
+    time.sleep(30)
     while True:
         if timeout:
             time.sleep(timeout)
@@ -33,10 +33,11 @@ def volodya_part():
     save_only_items_in_db(items_with_float)
 
 
-if __name__ == '__main__':
-    #while True:
-    try:
-        volodya_part()
-    except RuntimeError:
+# if __name__ == '__main__':
+#     #while True:
+#     try:
+#         volodya_part()
+#     except RuntimeError:
+
         #time.sleep(3)
     # volodya_part_upgraded()

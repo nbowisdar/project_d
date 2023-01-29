@@ -72,7 +72,7 @@ def get_sold_items(new_items: list[ForGetFloatSchema]) -> list[DataForMessage]:
             if good_item:
                 if good_item.user:
                     sold_items.append(_transform_item(good_item))
-            # item.delete().where(ItemFullData.id == item).execute()
+            item.delete().where(ItemFullData.id == item).execute()
     # logger.info(f"Sold items - {len(sold_items)}")
     return sold_items
 

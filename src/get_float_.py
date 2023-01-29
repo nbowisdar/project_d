@@ -31,8 +31,8 @@ async def get_float_one_item(item: ForGetFloatSchema) -> ForGetProfileSchema | N
                     paint_seed=info['paintseed']
                 )
             except Exception as err:
-                logger.error(err)
-                logger.error(url)
+                #logger.error(err)
+                #logger.error(url)
                 errors += 1
                 return None
 
